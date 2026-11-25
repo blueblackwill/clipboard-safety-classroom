@@ -59,6 +59,7 @@
   .nav { flex-wrap: wrap; }
   .nav a { text-decoration: none; color: var(--muted); font-size: .88rem; white-space: nowrap; }
   .nav a:hover, .text-link:hover, .nav a:focus-visible { color: var(--accent); }
+  .nav a.library-nav { color: var(--accent); font-weight: 750; }
   .tools { gap: 8px; }
   .top-button { background: transparent; border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; min-height: 38px; white-space: nowrap; color: var(--muted); font-size: .82rem; }
   .top-button:hover, .quiet:hover { border-color: var(--accent); color: var(--accent); }
@@ -183,6 +184,7 @@
   <div class="wrap header">
     <a class="brand" href="#main"><span class="brand-mark" aria-hidden="true">=</span>防骗教学站</a>
     <nav class="nav" aria-label="章节">
+      <a href="library.html" class="library-nav">课程资料库</a>
       <a href="#journey">七个场景</a>
       <a href="#prevention">核验清单</a>
       <a href="#practice">课堂自测</a>
@@ -201,7 +203,8 @@
       <h1>粘贴之后，<span>先核对地址。</span></h1>
       <p class="lede" data-search="剪贴板劫持是什么">复制的收款地址可能在粘贴前被替换。到了转账确认页，核对完整地址和网络，是按下确认前最后一次发现异常的机会。</p>
       <div class="actions">
-        <a class="primary" href="#journey">看七个场景 <span aria-hidden="true">↘</span></a>
+        <a class="primary" href="library.html">打开课程资料库 <span aria-hidden="true">↗</span></a>
+        <a class="text-link" href="#journey">看七个场景</a>
         <a class="text-link" href="#response">发现异常怎么处理</a>
       </div>
     </div>
@@ -340,6 +343,7 @@
   </section>
 </main>
 <footer class="wrap refs">
+  <p><a href="library.html">课程资料库</a> · <a href="source.html">网页源码</a></p>
   <p>防骗教学站 · 根据原课件的零基础讲解、受害者场景和学生自查手册改编。</p>
   <a href="https://www.eset.com/gr-en/about/newsroom/press-releases-1/first-clipper-malware-discovered-on-google-play/">ESET 剪贴板劫持案例</a>
   <a href="https://www.cyber.gov.au/guidance/detect-and-remove-malware">澳大利亚网络安全中心设备处置指南</a>

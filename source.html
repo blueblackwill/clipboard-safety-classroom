@@ -1,0 +1,1565 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="点开文件名即可阅读本站的 HTML、CSS 和 JavaScript。代码区可以上下和横向滚动。">
+<meta name="color-scheme" content="dark light">
+<title>网页源码 · 剪贴板劫持防骗教学站</title>
+<link rel="stylesheet" href="library.css">
+<script src="library.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">跳到正文</a>
+<header class="top">
+  <div class="shell header">
+    <a href="index.html" class="brand"><span class="brand-mark" aria-hidden="true">=</span>防骗教学站</a>
+    <nav aria-label="网站">
+      <a href="index.html">快速入门</a>
+      <a href="library.html">课程资料库</a>
+      <a href="source.html" aria-current="page">网页源码</a>
+      <button type="button" id="theme" class="theme" aria-label="切换浅色主题" hidden>浅色</button>
+    </nav>
+  </div>
+</header>
+<main id="main" class="shell">
+  <section class="intro">
+    <div>
+      <p class="kicker">剪贴板劫持 · 防骗教学</p>
+      <h1>网页源码</h1>
+      <p>点开文件名即可阅读本站的 HTML、CSS 和 JavaScript。代码区可以上下和横向滚动。</p>
+    </div>
+  </section>
+
+<div class="source-index">
+<details class="resource" id="source-index-html">
+  <summary>index.html<span class="summary-lead">快速入门、安全演示和课堂自测</span></summary>
+  <div class="reader"><pre class="source-code" tabindex="0" aria-label="index.html"><code>&lt;!doctype html&gt;
+&lt;html lang="zh-CN" data-theme="dark"&gt;
+&lt;head&gt;
+&lt;meta charset="utf-8"&gt;
+&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+&lt;meta name="description" content="通过七个场景了解剪贴板劫持，练习核对完整收款地址，掌握发现异常后的处理步骤。"&gt;
+&lt;meta name="color-scheme" content="dark light"&gt;
+&lt;title&gt;剪贴板劫持 · 防骗教学站&lt;/title&gt;
+&lt;style&gt;
+  :root {
+    color-scheme: dark;
+    --page: #111511;
+    --panel: #191f18;
+    --inset: #131813;
+    --line: #343d30;
+    --text: #f0f2e8;
+    --muted: #b1bdab;
+    --accent: #d4f581;
+    --accent-text: #172006;
+    --accent-wash: #24321a;
+    --danger: #ffb298;
+    --danger-wash: #422b24;
+    --shadow: #080d08;
+    --mono: ui-monospace, "SFMono-Regular", Consolas, monospace;
+    --sans: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", system-ui, sans-serif;
+    scroll-behavior: smooth;
+  }
+  :root[data-theme="light"] {
+    color-scheme: light;
+    --page: #f3f3e9;
+    --panel: #fcfcf3;
+    --inset: #eef0e4;
+    --line: #c8d0bc;
+    --text: #1b2618;
+    --muted: #465442;
+    --accent: #436314;
+    --accent-text: #fff;
+    --accent-wash: #e1edcb;
+    --danger: #8a341f;
+    --danger-wash: #ffe4d8;
+    --shadow: #dbe0d2;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); color: var(--text); font: 16px/1.7 var(--sans); }
+  button, input { font: inherit; }
+  button { color: inherit; cursor: pointer; }
+  a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+  [hidden] { display: none !important; }
+  [id] { scroll-margin-top: 100px; }
+  .wrap { width: min(1160px, calc(100% - 64px)); margin-inline: auto; }
+  .skip { position: fixed; z-index: 5; padding: 8px 16px; left: 16px; top: 8px; background: var(--accent); color: var(--accent-text); transform: translateY(-200%); }
+  .skip:focus { transform: translateY(0); }
+  .top { border-bottom: 1px solid var(--line); }
+  .header { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+  .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 800; white-space: nowrap; }
+  .brand-mark { display: grid; place-items: center; width: 31px; height: 31px; border-radius: 8px; background: var(--accent); color: var(--accent-text); font: 800 19px var(--mono); }
+  .nav, .tools { display: flex; align-items: center; gap: clamp(12px, 2vw, 27px); }
+  .nav { flex-wrap: wrap; }
+  .nav a { text-decoration: none; color: var(--muted); font-size: .88rem; white-space: nowrap; }
+  .nav a:hover, .text-link:hover, .nav a:focus-visible { color: var(--accent); }
+  .nav a.library-nav { color: var(--accent); font-weight: 750; }
+  .tools { gap: 8px; }
+  .top-button { background: transparent; border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; min-height: 38px; white-space: nowrap; color: var(--muted); font-size: .82rem; }
+  .top-button:hover, .quiet:hover { border-color: var(--accent); color: var(--accent); }
+  kbd { font: .7rem var(--mono); opacity: .75; margin-left: 4px; }
+  .hero { display: grid; grid-template-columns: 1.03fr 1fr; align-items: center; gap: clamp(26px, 5vw, 78px); padding-block: clamp(66px, 9vw, 112px) clamp(54px, 7vw, 84px); }
+  .eyebrow { margin: 0 0 14px; font-size: .8rem; letter-spacing: .12em; color: var(--accent); font-weight: 700; }
+  h1, h2, h3, p { margin-top: 0; }
+  h1, h2, h3 { line-height: 1.25; }
+  h1 { font-size: clamp(2.9rem, 5.35vw, 5rem); letter-spacing: -.072em; margin-bottom: 24px; }
+  h1 span { display: block; color: var(--accent); padding-top: .08em; }
+  .lede { color: var(--muted); max-width: 33ch; margin-bottom: 30px; font-size: clamp(1rem, 1.3vw, 1.12rem); }
+  .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 19px; }
+  .primary, .quiet { border-radius: 8px; padding: 10px 16px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 9px; text-decoration: none; font-weight: 780; font-size: .9rem; }
+  .primary { border: 1px solid var(--accent); background: var(--accent); color: var(--accent-text); }
+  .primary:hover { filter: brightness(.94); }
+  .quiet { background: transparent; border: 1px solid var(--line); }
+  .text-link { font-size: .91rem; color: var(--muted); text-underline-offset: 5px; }
+  .receipt { min-width: 0; background: var(--panel); border: 1px solid var(--line); border-radius: 15px; overflow: hidden; box-shadow: 0 20px 52px -35px var(--shadow); }
+  .receipt-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; border-bottom: 1px solid var(--line); padding: 13px 20px; font-weight: 750; font-size: .87rem; }
+  .receipt-label { color: var(--muted); font-size: .73rem; font-weight: 500; }
+  .receipt-body { padding: 20px; }
+  .address { margin-bottom: 10px; padding: 10px 13px; background: var(--inset); border: 1px solid var(--line); border-radius: 8px; }
+  .address span { display: block; font-size: .79rem; color: var(--muted); margin-bottom: 4px; }
+  .address code { font: 650 clamp(.72rem, 1.38vw, 1.03rem)/1.65 var(--mono); overflow-wrap: anywhere; }
+  .address mark { background: transparent; color: inherit; padding: .05em .12em; border-radius: 3px; margin-inline: -.12em; }
+  .receipt.revealed .trusted mark { background: var(--accent-wash); color: var(--accent); }
+  .receipt.revealed .entered mark { background: var(--danger-wash); color: var(--danger); text-decoration: underline; text-underline-offset: 4px; }
+  .compare-note { min-height: 2.9em; margin: 12px 0; font-size: .84rem; color: var(--muted); }
+  .receipt .quiet { min-height: 39px; padding: 7px 12px; }
+  .principles { display: grid; grid-template-columns: repeat(3, 1fr); border-block: 1px solid var(--line); }
+  .principle { display: grid; grid-template-columns: auto 1fr; gap: 4px 13px; padding: 22px clamp(12px, 2.3vw, 28px); }
+  .principle + .principle { border-left: 1px solid var(--line); }
+  .principle b { color: var(--accent); font: 700 .77rem/1.8 var(--mono); grid-row: span 2; }
+  .principle strong { font-size: .99rem; }
+  .principle span { font-size: .84rem; color: var(--muted); }
+  .section { padding-block: clamp(47px, 7vw, 83px); border-bottom: 1px solid var(--line); }
+  .section-title { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px 26px; margin-bottom: 24px; }
+  .section-title h2 { font-size: clamp(1.85rem, 3.8vw, 3rem); letter-spacing: -.045em; margin: 0; }
+  .section-title p { color: var(--muted); max-width: 44ch; font-size: .94rem; margin: 0; }
+  .timeline { display: grid; grid-template-columns: minmax(185px, .7fr) minmax(0, 2.3fr); border: 1px solid var(--line); border-radius: 13px; background: var(--panel); overflow: hidden; }
+  .scene-nav { display: grid; align-content: start; border-right: 1px solid var(--line); background: var(--inset); padding: 8px; }
+  .scene-button { text-align: left; border: 1px solid transparent; background: transparent; border-radius: 7px; padding: 9px 12px; color: var(--muted); font-size: .92rem; }
+  .scene-button span { color: inherit; font: .78rem var(--mono); margin-right: 9px; opacity: .85; }
+  .scene-button:hover { color: var(--text); background: var(--panel); }
+  .scene-button[aria-pressed="true"] { border-color: var(--line); background: var(--accent-wash); color: var(--accent); font-weight: 750; }
+  .scene-frames { padding: clamp(20px, 4vw, 43px); min-width: 0; }
+  .scene-frames h3 { font-size: clamp(1.3rem, 2.5vw, 1.85rem); margin: 0 0 13px; }
+  .scene-frames p { color: var(--muted); max-width: 50ch; margin-bottom: 14px; }
+  .scene-frames .tip { color: var(--text); border-left: 2px solid var(--accent); background: var(--accent-wash); padding: 9px 13px; margin: 20px 0 0; border-radius: 0 5px 5px 0; }
+  .tip strong { color: var(--accent); }
+  .scene-frames article + article { margin-top: 32px; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: clamp(16px, 2.7vw, 25px); }
+  .card h3 { font-size: 1.15rem; margin-bottom: 10px; }
+  .card p { color: var(--muted); font-size: .94rem; margin-bottom: 0; }
+  .card p + p { margin-top: 9px; }
+  .practice { display: grid; grid-template-columns: .9fr 1.25fr; align-items: start; gap: clamp(20px, 4vw, 49px); }
+  .practice .section-title { align-content: start; }
+  .quiz { padding: clamp(19px, 3vw, 28px); }
+  .quiz-top { display: flex; justify-content: space-between; gap: 12px; align-items: center; margin-bottom: 13px; }
+  .quiz-counter { color: var(--accent); font: 700 .82rem var(--mono); }
+  progress { width: 95px; height: 7px; accent-color: var(--accent); }
+  .quiz-options { display: grid; gap: 7px; }
+  .choice { text-align: left; padding: 8px 12px; border: 1px solid var(--line); border-radius: 7px; background: var(--inset); font-size: .89rem; }
+  .choice:hover { border-color: var(--accent); }
+  .choice[aria-disabled="true"] { cursor: default; }
+  .choice[data-result="right"] { background: var(--accent-wash); color: var(--accent); border-color: var(--accent); }
+  .choice[data-result="wrong"] { background: var(--danger-wash); color: var(--danger); border-color: var(--danger); }
+  .quiz-feedback { min-height: 1.5em; padding-block: 10px; font-size: .87rem; color: var(--muted); }
+  .quiz-next:disabled { opacity: .45; cursor: default; }
+  .response { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .response ol { margin: 0; padding-inline-start: 1.35em; color: var(--muted); }
+  .response li { padding-left: .24em; margin-bottom: 8px; }
+  .response li:last-child { margin-bottom: 0; }
+  .response li::marker { color: var(--accent); }
+  .response strong { color: var(--text); }
+  .refs { color: var(--muted); padding-block: 24px 32px; font-size: .82rem; }
+  .refs p { margin-bottom: 5px; }
+  .refs a { text-underline-offset: 3px; }
+  .refs a + a { margin-left: 12px; }
+  dialog { width: min(560px, calc(100% - 28px)); padding: 19px; border: 1px solid var(--line); border-radius: 13px; background: var(--panel); color: var(--text); box-shadow: 0 20px 70px var(--shadow); }
+  dialog::backdrop { background: rgb(0 0 0 / 62%); }
+  .dialog-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 11px; }
+  .dialog-top label { font-weight: 750; }
+  .dialog-top form { margin: 0; }
+  .search-input { appearance: none; width: 100%; border: 1px solid var(--line); border-radius: 8px; padding: 9px 11px; color: var(--text); background: var(--inset); }
+  .search-results { padding: 0; margin: 12px 0 0; list-style: none; max-height: 48vh; overflow: auto; }
+  .search-results a { text-decoration: none; display: block; padding: 7px 9px; border-bottom: 1px solid var(--line); }
+  .search-results a:hover, .search-results a:focus-visible { background: var(--accent-wash); color: var(--accent); }
+  .search-status { color: var(--muted); margin: 9px 0 0; font-size: .84rem; }
+  @media (max-width: 820px) {
+    .wrap { width: min(100% - 36px, 680px); }
+    .header { flex-wrap: wrap; gap: 8px 12px; padding-block: 11px; }
+    .nav { order: 3; flex-basis: 100%; gap: 5px 18px; }
+    .tools { margin-left: auto; }
+    .hero { grid-template-columns: 1fr; gap: 31px; padding-block: 42px 36px; }
+    .lede { max-width: 45ch; margin-bottom: 19px; }
+    .address code { font-size: clamp(.75rem, 2.25vw, 1.02rem); }
+    .practice { grid-template-columns: 1fr; gap: 2px; }
+    .grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 520px) {
+    .wrap { width: calc(100% - 30px); }
+    [id] { scroll-margin-top: 15px; }
+    kbd { display: none; }
+    .nav { gap: 4px 14px; }
+    .nav a { font-size: .8rem; }
+    .receipt-head, .receipt-body { padding: 12px; }
+    .principles, .grid, .response, .timeline { grid-template-columns: 1fr; }
+    .principle { padding: 12px 4px; }
+    .principle + .principle { border-left: 0; border-top: 1px solid var(--line); }
+    .scene-nav { border-right: 0; border-bottom: 1px solid var(--line); grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .scene-button { padding: 8px 6px; }
+    .scene-button span { margin-right: 4px; }
+  }
+  @media (prefers-reduced-motion: reduce) { :root { scroll-behavior: auto; } }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;a class="skip" href="#main"&gt;跳到正文&lt;/a&gt;
+&lt;header class="top"&gt;
+  &lt;div class="wrap header"&gt;
+    &lt;a class="brand" href="#main"&gt;&lt;span class="brand-mark" aria-hidden="true"&gt;=&lt;/span&gt;防骗教学站&lt;/a&gt;
+    &lt;nav class="nav" aria-label="章节"&gt;
+      &lt;a href="library.html" class="library-nav"&gt;课程资料库&lt;/a&gt;
+      &lt;a href="#journey"&gt;七个场景&lt;/a&gt;
+      &lt;a href="#prevention"&gt;核验清单&lt;/a&gt;
+      &lt;a href="#practice"&gt;课堂自测&lt;/a&gt;
+      &lt;a href="#response"&gt;应急处置&lt;/a&gt;
+    &lt;/nav&gt;
+    &lt;div class="tools"&gt;
+      &lt;button type="button" class="top-button" id="search-open" aria-haspopup="dialog" hidden&gt;搜索 &lt;kbd&gt;⌘/Ctrl K&lt;/kbd&gt;&lt;/button&gt;
+      &lt;button type="button" class="top-button" id="theme" aria-label="切换浅色主题" hidden&gt;浅色&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/header&gt;
+&lt;main id="main" class="wrap"&gt;
+  &lt;section class="hero"&gt;
+    &lt;div&gt;
+      &lt;p class="eyebrow"&gt;剪贴板劫持 · 零基础防骗课&lt;/p&gt;
+      &lt;h1&gt;粘贴之后，&lt;span&gt;先核对地址。&lt;/span&gt;&lt;/h1&gt;
+      &lt;p class="lede" data-search="剪贴板劫持是什么"&gt;复制的收款地址可能在粘贴前被替换。到了转账确认页，核对完整地址和网络，是按下确认前最后一次发现异常的机会。&lt;/p&gt;
+      &lt;div class="actions"&gt;
+        &lt;a class="primary" href="library.html"&gt;打开课程资料库 &lt;span aria-hidden="true"&gt;↗&lt;/span&gt;&lt;/a&gt;
+        &lt;a class="text-link" href="#journey"&gt;看七个场景&lt;/a&gt;
+        &lt;a class="text-link" href="#response"&gt;发现异常怎么处理&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div id="receipt" class="receipt"&gt;
+      &lt;div class="receipt-head"&gt;
+        &lt;span&gt;收款地址核验&lt;/span&gt;&lt;span class="receipt-label"&gt;课堂示例&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class="receipt-body"&gt;
+        &lt;div class="address trusted"&gt;&lt;span&gt;从可信渠道拿到的地址&lt;/span&gt;&lt;code&gt;DEMO-7A9F-261C-&lt;mark&gt;73B0&lt;/mark&gt;-3E6B&lt;/code&gt;&lt;/div&gt;
+        &lt;div class="address entered"&gt;&lt;span&gt;确认页显示的地址&lt;/span&gt;&lt;code&gt;DEMO-7A9F-261C-&lt;mark&gt;E5D8&lt;/mark&gt;-3E6B&lt;/code&gt;&lt;/div&gt;
+        &lt;p class="compare-note" id="compare-note" aria-live="polite"&gt;两串示例的开头和结尾都一样。你能看出哪里不同吗？&lt;/p&gt;
+        &lt;button type="button" class="quiet" id="compare" aria-pressed="false" hidden&gt;标出不同字符&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+  &lt;div class="principles" aria-label="转账前的三个动作"&gt;
+    &lt;div class="principle"&gt;&lt;b&gt;01&lt;/b&gt;&lt;strong&gt;从可信渠道取地址&lt;/strong&gt;&lt;span&gt;优先用已验证的官方渠道。&lt;/span&gt;&lt;/div&gt;
+    &lt;div class="principle"&gt;&lt;b&gt;02&lt;/b&gt;&lt;strong&gt;核对完整地址和网络&lt;/strong&gt;&lt;span&gt;在最后确认页面逐段比对。&lt;/span&gt;&lt;/div&gt;
+    &lt;div class="principle"&gt;&lt;b&gt;03&lt;/b&gt;&lt;strong&gt;有任何不一致就停&lt;/strong&gt;&lt;span&gt;换可信设备重新核验。&lt;/span&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;section class="section" id="journey"&gt;
+    &lt;div class="section-title"&gt;
+      &lt;h2&gt;从看到链接到按下确认&lt;/h2&gt;
+      &lt;p&gt;七个场景取自原课件的虚构故事。点选一个场景，看看当时有哪些信息可以核验。&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class="timeline"&gt;
+      &lt;div class="scene-nav" id="scene-nav" role="group" aria-label="选择场景" hidden&gt;
+        &lt;button class="scene-button" type="button" aria-controls="scene-1" aria-pressed="true"&gt;&lt;span&gt;01&lt;/span&gt;聊天推荐&lt;/button&gt;
+        &lt;button class="scene-button" type="button" aria-controls="scene-2" aria-pressed="false"&gt;&lt;span&gt;02&lt;/span&gt;下载页面&lt;/button&gt;
+        &lt;button class="scene-button" type="button" aria-controls="scene-3" aria-pressed="false"&gt;&lt;span&gt;03&lt;/span&gt;安装提示&lt;/button&gt;
+        &lt;button class="scene-button" type="button" aria-controls="scene-4" aria-pressed="false"&gt;&lt;span&gt;04&lt;/span&gt;正常运行&lt;/button&gt;
+        &lt;button class="scene-button" type="button" aria-controls="scene-5" aria-pressed="false"&gt;&lt;span&gt;05&lt;/span&gt;复制地址&lt;/button&gt;
+        &lt;button class="scene-button" type="button" aria-controls="scene-6" aria-pressed="false"&gt;&lt;span&gt;06&lt;/span&gt;粘贴地址&lt;/button&gt;
+        &lt;button class="scene-button" type="button" aria-controls="scene-7" aria-pressed="false"&gt;&lt;span&gt;07&lt;/span&gt;提交确认&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div class="scene-frames" aria-live="polite"&gt;
+        &lt;article id="scene-1" data-search="01 聊天推荐"&gt;
+          &lt;h3&gt;群里有人发了免费工具&lt;/h3&gt;
+          &lt;p&gt;小周看到群友推荐一款插件，消息附了截图和下载链接。聊天头像、群友评价和跟帖都可以伪造。&lt;/p&gt;
+          &lt;p class="tip"&gt;&lt;strong&gt;核验动作&lt;/strong&gt;　离开转发链接，自己查找发布者的官方入口。&lt;/p&gt;
+        &lt;/article&gt;
+        &lt;article id="scene-2" data-search="02 下载页面"&gt;
+          &lt;h3&gt;下载页看起来像官网&lt;/h3&gt;
+          &lt;p&gt;页面有图标、版本号和教程。小周需要独立确认域名和发布者，才能知道文件是否来自预期来源。&lt;/p&gt;
+          &lt;p class="tip"&gt;&lt;strong&gt;核验动作&lt;/strong&gt;　通过已验证的官网或官方应用商店获取软件。&lt;/p&gt;
+        &lt;/article&gt;
+        &lt;article id="scene-3" data-search="03 安装提示"&gt;
+          &lt;h3&gt;插件提示开启 DLL 导入&lt;/h3&gt;
+          &lt;p&gt;DLL 是一种可由应用加载的程序库。开启导入后，插件可能获得执行附加代码的能力。来源不明的插件要求开启权限，是该停下来核实的信号。&lt;/p&gt;
+          &lt;p class="tip"&gt;&lt;strong&gt;核验动作&lt;/strong&gt;　中止安装，先向软件供应方核实这项权限的必要性。&lt;/p&gt;
+        &lt;/article&gt;
+        &lt;article id="scene-4" data-search="04 正常运行"&gt;
+          &lt;h3&gt;软件表面上一切正常&lt;/h3&gt;
+          &lt;p&gt;插件正常显示图表，小周于是放下戒心。可见功能正常时，设备仍可能有其他异常。&lt;/p&gt;
+          &lt;p class="tip"&gt;&lt;strong&gt;核验动作&lt;/strong&gt;　定期检查近期安装的软件、扩展和已授予的权限。&lt;/p&gt;
+        &lt;/article&gt;
+        &lt;article id="scene-5" data-search="05 复制地址"&gt;
+          &lt;h3&gt;小周复制了正确的地址&lt;/h3&gt;
+          &lt;p&gt;剪贴板暂存刚复制的文字。设备受到影响时，转账界面粘贴出的文字可能已变。聊天记录和历史转账里也可能出现冒充的地址。&lt;/p&gt;
+          &lt;p class="tip"&gt;&lt;strong&gt;核验动作&lt;/strong&gt;　留着可信收款页，在最终确认时回到原始来源核对。&lt;/p&gt;
+        &lt;/article&gt;
+        &lt;article id="scene-6" data-search="06 粘贴地址"&gt;
+          &lt;h3&gt;粘贴后的地址看着很像&lt;/h3&gt;
+          &lt;p&gt;两串地址可能首尾相同、中间不同。格式检查关注地址本身是否有效，收款方身份需要你另行核验。&lt;/p&gt;
+          &lt;p class="tip"&gt;&lt;strong&gt;核验动作&lt;/strong&gt;　逐段看完全部字符，同时核对网络和必要的备注。&lt;/p&gt;
+        &lt;/article&gt;
+        &lt;article id="scene-7" data-search="07 提交确认"&gt;
+          &lt;h3&gt;确认页只显示了地址首尾&lt;/h3&gt;
+          &lt;p&gt;小周在最后一屏只看到缩写。需要找到能显示完整地址的确认视图，才能比对这笔操作的实际目的地。&lt;/p&gt;
+          &lt;p class="tip"&gt;&lt;strong&gt;核验动作&lt;/strong&gt;　如果看不到完整地址，或者任何一段不一致，停止提交。&lt;/p&gt;
+        &lt;/article&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+  &lt;section class="section" id="prevention"&gt;
+    &lt;div class="section-title"&gt;
+      &lt;h2&gt;核验清单&lt;/h2&gt;
+      &lt;p&gt;从设备、信息来源和最终确认页各核验一次。&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class="grid"&gt;
+      &lt;article class="card" data-search="设备与权限"&gt;
+        &lt;h3&gt;设备与权限&lt;/h3&gt;
+        &lt;p&gt;使用来源可核实的软件，及时更新系统、浏览器和钱包应用。安装插件前核对发布者和权限。&lt;/p&gt;
+        &lt;p&gt;出现粘贴异常时，先停用可疑设备上的转账操作。&lt;/p&gt;
+      &lt;/article&gt;
+      &lt;article class="card" data-search="收款信息来源"&gt;
+        &lt;h3&gt;收款信息来源&lt;/h3&gt;
+        &lt;p&gt;从已验证的官方应用、官网或已知收款渠道重新取得完整地址。对方突然更改地址时，用之前已确认的渠道复核。&lt;/p&gt;
+      &lt;/article&gt;
+      &lt;article class="card" data-search="最终确认页"&gt;
+        &lt;h3&gt;最终确认页&lt;/h3&gt;
+        &lt;p&gt;比对完整地址、网络、金额及所需的备注或标签。确认页若只显示首尾，先展开完整信息再核对。&lt;/p&gt;
+      &lt;/article&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+  &lt;section class="section practice" id="practice" data-search="课堂自测"&gt;
+    &lt;div class="section-title"&gt;
+      &lt;h2&gt;课堂自测&lt;/h2&gt;
+      &lt;p&gt;四个情境，分别练习核对地址、判断权限、查证来源和处理异常。&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class="card quiz" id="quiz" hidden&gt;
+      &lt;div class="quiz-top"&gt;
+        &lt;span id="quiz-counter" class="quiz-counter"&gt;&lt;/span&gt;
+        &lt;progress aria-label="答题进度" id="quiz-progress" max="4" value="0"&gt;&lt;/progress&gt;
+      &lt;/div&gt;
+      &lt;h3 id="quiz-question" tabindex="-1"&gt;&lt;/h3&gt;
+      &lt;div class="quiz-options" id="quiz-options" role="group" aria-labelledby="quiz-question"&gt;&lt;/div&gt;
+      &lt;div id="quiz-feedback" class="quiz-feedback" aria-live="polite"&gt;&lt;/div&gt;
+      &lt;button id="quiz-next" class="primary quiz-next" type="button" disabled&gt;下一题&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;noscript&gt;&lt;p&gt;可以用上面的地址示例口头练习。请说出两串地址的差异，以及什么时候应该停止操作。&lt;/p&gt;&lt;/noscript&gt;
+  &lt;/section&gt;
+  &lt;section class="section" id="response"&gt;
+    &lt;div class="section-title"&gt;
+      &lt;h2&gt;发现异常怎么处理&lt;/h2&gt;
+      &lt;p&gt;先保护设备和账户，再按是否已提交转账处理。&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class="response"&gt;
+      &lt;article class="card" data-search="尚未提交转账"&gt;
+        &lt;h3&gt;尚未提交&lt;/h3&gt;
+        &lt;ol&gt;
+          &lt;li&gt;&lt;strong&gt;停止确认。&lt;/strong&gt; 结束这次操作，暂停用这台设备处理账户。&lt;/li&gt;
+          &lt;li&gt;&lt;strong&gt;用可信设备复核。&lt;/strong&gt; 从独立可信渠道取得原始信息，比对完整地址和网络。&lt;/li&gt;
+          &lt;li&gt;&lt;strong&gt;记录和检查。&lt;/strong&gt; 保留出现异常的页面和时间。怀疑设备感染时，断开网络并请技术支持检查。&lt;/li&gt;
+        &lt;/ol&gt;
+      &lt;/article&gt;
+      &lt;article class="card" data-search="已经提交转账"&gt;
+        &lt;h3&gt;已经提交&lt;/h3&gt;
+        &lt;ol&gt;
+          &lt;li&gt;&lt;strong&gt;保存交易信息。&lt;/strong&gt; 记录交易编号或哈希、时间、网络、金额、收款地址和相关截图。&lt;/li&gt;
+          &lt;li&gt;&lt;strong&gt;通过官方渠道联系平台。&lt;/strong&gt; 用可信设备尽快提交异常报告，按当地渠道报案。&lt;/li&gt;
+          &lt;li&gt;&lt;strong&gt;谨防二次诈骗。&lt;/strong&gt; 对声称能追回资金并要求先交费用的人保持警惕。&lt;/li&gt;
+        &lt;/ol&gt;
+      &lt;/article&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+&lt;/main&gt;
+&lt;footer class="wrap refs"&gt;
+  &lt;p&gt;&lt;a href="library.html"&gt;课程资料库&lt;/a&gt; · &lt;a href="source.html"&gt;网页源码&lt;/a&gt;&lt;/p&gt;
+  &lt;p&gt;防骗教学站 · 根据原课件的零基础讲解、受害者场景和学生自查手册改编。&lt;/p&gt;
+  &lt;a href="https://www.eset.com/gr-en/about/newsroom/press-releases-1/first-clipper-malware-discovered-on-google-play/"&gt;ESET 剪贴板劫持案例&lt;/a&gt;
+  &lt;a href="https://www.cyber.gov.au/guidance/detect-and-remove-malware"&gt;澳大利亚网络安全中心设备处置指南&lt;/a&gt;
+  &lt;a href="https://www.ic3.gov/PSA/2023/PSA230824"&gt;FBI IC3 交易凭证指南&lt;/a&gt;
+&lt;/footer&gt;
+&lt;dialog id="search-dialog" aria-labelledby="search-label"&gt;
+  &lt;div class="dialog-top"&gt;
+    &lt;label id="search-label" for="search-input"&gt;搜索教学内容&lt;/label&gt;
+    &lt;form method="dialog"&gt;&lt;button class="top-button" type="submit"&gt;关闭&lt;/button&gt;&lt;/form&gt;
+  &lt;/div&gt;
+  &lt;input class="search-input" id="search-input" type="search" placeholder="输入地址、DLL 或转账" autocomplete="off"&gt;
+  &lt;p class="search-status" id="search-status" role="status"&gt;&lt;/p&gt;
+  &lt;ul class="search-results" id="search-results"&gt;&lt;/ul&gt;
+&lt;/dialog&gt;
+&lt;script&gt;
+(() =&gt; {
+  const doc = document;
+  const get = (id) =&gt; doc.getElementById(id);
+
+  const theme = get("theme");
+  let preference = "dark";
+  try { preference = localStorage.getItem("clipper-lesson-theme") || preference; } catch {}
+  function showTheme(value) {
+    doc.documentElement.dataset.theme = value;
+    const next = value === "dark" ? "浅色" : "深色";
+    theme.textContent = next;
+    theme.setAttribute("aria-label", "切换" + next + "主题");
+  }
+  showTheme(preference === "light" ? "light" : "dark");
+  theme.hidden = false;
+  theme.addEventListener("click", () =&gt; {
+    const next = doc.documentElement.dataset.theme === "dark" ? "light" : "dark";
+    showTheme(next);
+    try { localStorage.setItem("clipper-lesson-theme", next); } catch {}
+  });
+
+  const compare = get("compare");
+  const compareNote = get("compare-note");
+  const originalNote = compareNote.textContent;
+  compare.hidden = false;
+  compare.addEventListener("click", () =&gt; {
+    const revealed = compare.getAttribute("aria-pressed") === "false";
+    get("receipt").classList.toggle("revealed", revealed);
+    compare.setAttribute("aria-pressed", String(revealed));
+    compare.textContent = revealed ? "隐藏差异标记" : "标出不同字符";
+    compareNote.textContent = revealed
+      ? "第 4 段由 73B0 变成了 E5D8。发现一处不一致，就应停止提交。"
+      : originalNote;
+  });
+
+  const sceneNav = get("scene-nav");
+  const scenes = [...sceneNav.querySelectorAll("button")];
+  function showScene(id) {
+    for (const button of scenes) {
+      const target = button.getAttribute("aria-controls");
+      button.setAttribute("aria-pressed", String(target === id));
+      get(target).hidden = target !== id;
+    }
+  }
+  sceneNav.hidden = false;
+  showScene("scene-1");
+  sceneNav.addEventListener("click", (event) =&gt; {
+    const button = event.target.closest("button");
+    if (button) showScene(button.getAttribute("aria-controls"));
+  });
+  function revealLinkedScene() {
+    const id = location.hash.slice(1);
+    if (!scenes.some((button) =&gt; button.getAttribute("aria-controls") === id)) return;
+    showScene(id);
+    get(id).scrollIntoView();
+  }
+  window.addEventListener("hashchange", revealLinkedScene);
+  revealLinkedScene();
+
+  const quiz = get("quiz");
+  const questionTitle = get("quiz-question");
+  const options = get("quiz-options");
+  const feedback = get("quiz-feedback");
+  const nextQuestion = get("quiz-next");
+  const progress = get("quiz-progress");
+  const questions = [
+    {
+      prompt: "确认页的地址首尾都对，下一步该做什么？",
+      choices: ["继续提交", "展开完整地址，逐段核对并检查网络", "只检查地址长度"],
+      answer: 1,
+      explanation: "首尾一致时，中间仍可能有差异。展开完整地址并核对网络。"
+    },
+    {
+      prompt: "来路不明的插件要求开启 DLL 导入，你会怎么做？",
+      choices: ["先停止安装，从可信渠道核实插件和权限", "先打开权限，等出问题再关掉", "群里有人说好用就可以开"],
+      answer: 0,
+      explanation: "来源和权限都需要核实。能正常运行也不足以判断它是否安全。"
+    },
+    {
+      prompt: "熟悉的聊天联系人突然换了收款地址，该怎么核实？",
+      choices: ["直接使用最新消息的地址", "对一下历史记录里的地址首尾", "通过之前确认过的独立渠道联系对方"],
+      answer: 2,
+      explanation: "使用事先验证过的联系渠道复核收款信息，避免只依赖同一条聊天消息。"
+    },
+    {
+      prompt: "提交后发现收款地址不对，先做什么？",
+      choices: ["立刻再试一次", "保留交易凭证，通过官方渠道联系平台", "先为声称能追回资金的人付款"],
+      answer: 1,
+      explanation: "尽快记录交易哈希、时间、网络、金额和地址，再从可信设备联系平台。"
+    }
+  ];
+  let current = 0;
+  let score = 0;
+  let answered = false;
+  function renderQuestion(focus = false) {
+    const question = questions[current];
+    get("quiz-counter").textContent = "第 " + (current + 1) + " / " + questions.length + " 题";
+    progress.value = current;
+    questionTitle.textContent = question.prompt;
+    feedback.textContent = "";
+    options.replaceChildren();
+    nextQuestion.textContent = current === questions.length - 1 ? "查看结果" : "下一题";
+    nextQuestion.disabled = true;
+    answered = false;
+    for (const [index, label] of question.choices.entries()) {
+      const button = doc.createElement("button");
+      button.type = "button";
+      button.className = "choice";
+      button.textContent = String.fromCharCode(65 + index) + "．" + label;
+      button.addEventListener("click", () =&gt; {
+        if (answered) return;
+        answered = true;
+        const correct = index === question.answer;
+        if (correct) score++;
+        for (const option of options.children) option.setAttribute("aria-disabled", "true");
+        options.children[question.answer].dataset.result = "right";
+        if (!correct) button.dataset.result = "wrong";
+        feedback.textContent = (correct ? "答对了。" : "正确答案是 " + String.fromCharCode(65 + question.answer) + "。") + question.explanation;
+        progress.value = current + 1;
+        nextQuestion.disabled = false;
+      });
+      options.append(button);
+    }
+    if (focus) questionTitle.focus();
+  }
+  nextQuestion.addEventListener("click", () =&gt; {
+    if (current === questions.length) {
+      current = 0;
+      score = 0;
+      renderQuestion(true);
+      return;
+    }
+    current++;
+    if (current &lt; questions.length) {
+      renderQuestion(true);
+      return;
+    }
+    get("quiz-counter").textContent = "练习完成";
+    questionTitle.textContent = "答对 " + score + " / " + questions.length + " 题";
+    options.replaceChildren();
+    feedback.textContent = "从可信渠道取地址，核对完整地址和网络，发现不一致就停。";
+    nextQuestion.textContent = "再练一次";
+    questionTitle.focus();
+  });
+  progress.max = questions.length;
+  quiz.hidden = false;
+  renderQuestion();
+
+  const searchDialog = get("search-dialog");
+  const searchOpen = get("search-open");
+  const searchInput = get("search-input");
+  const results = get("search-results");
+  const searchStatus = get("search-status");
+  const entries = [...doc.querySelectorAll("[data-search]")].map((element) =&gt; ({
+    title: element.dataset.search,
+    text: element.textContent.toLowerCase(),
+    anchor: element.id || element.closest("section[id]")?.id || "main"
+  }));
+  entries.push({
+    title: "课堂自测题目",
+    text: questions.flatMap(({ prompt, choices, explanation }) =&gt; [prompt, ...choices, explanation]).join(" ").toLowerCase(),
+    anchor: "practice"
+  });
+  function find() {
+    const words = searchInput.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+    const matches = words.length
+      ? entries.filter(({ title, text }) =&gt; words.every((word) =&gt; (title.toLowerCase() + " " + text).includes(word)))
+      : entries;
+    results.replaceChildren();
+    searchStatus.textContent = matches.length ? "找到 " + matches.length + " 项" : "没有找到相关内容。";
+    for (const entry of matches) {
+      const row = doc.createElement("li");
+      const link = doc.createElement("a");
+      link.href = "#" + entry.anchor;
+      link.textContent = entry.title;
+      link.addEventListener("click", () =&gt; {
+        if (entry.anchor.startsWith("scene-")) showScene(entry.anchor);
+        searchDialog.close();
+      });
+      row.append(link);
+      results.append(row);
+    }
+  }
+  function openSearch() {
+    if (searchDialog.open) return;
+    searchInput.value = "";
+    find();
+    searchDialog.showModal();
+    searchInput.focus();
+  }
+  searchOpen.hidden = false;
+  searchOpen.addEventListener("click", openSearch);
+  searchInput.addEventListener("input", find);
+  doc.addEventListener("keydown", (event) =&gt; {
+    if ((event.metaKey || event.ctrlKey) &amp;&amp; event.key.toLowerCase() === "k") {
+      event.preventDefault();
+      openSearch();
+    }
+  });
+})();
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre></div>
+</details>
+<details class="resource" id="source-library-html">
+  <summary>library.html<span class="summary-lead">资料库的完整页面结构和阅读内容</span></summary>
+  <div class="reader"><pre class="source-code" tabindex="0" aria-label="library.html"><code>&lt;!doctype html&gt;
+&lt;html lang="zh-CN" data-theme="dark"&gt;
+&lt;head&gt;
+&lt;meta charset="utf-8"&gt;
+&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+&lt;meta name="description" content="20 篇教学文档、6 套课件和 13 张图解，均可在网页内阅读。技术内容和演示从识别、核验与应急处置出发重新编排。"&gt;
+&lt;meta name="color-scheme" content="dark light"&gt;
+&lt;title&gt;课程资料库 · 剪贴板劫持防骗教学站&lt;/title&gt;
+&lt;link rel="stylesheet" href="library.css"&gt;
+&lt;script src="library.js" defer&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;a class="skip" href="#main"&gt;跳到正文&lt;/a&gt;
+&lt;header class="top"&gt;
+  &lt;div class="shell header"&gt;
+    &lt;a href="index.html" class="brand"&gt;&lt;span class="brand-mark" aria-hidden="true"&gt;=&lt;/span&gt;防骗教学站&lt;/a&gt;
+    &lt;nav aria-label="网站"&gt;
+      &lt;a href="index.html"&gt;快速入门&lt;/a&gt;
+      &lt;a href="library.html" aria-current="page"&gt;课程资料库&lt;/a&gt;
+      &lt;a href="source.html"&gt;网页源码&lt;/a&gt;
+      &lt;button type="button" id="theme" class="theme" aria-label="切换浅色主题" hidden&gt;浅色&lt;/button&gt;
+    &lt;/nav&gt;
+  &lt;/div&gt;
+&lt;/header&gt;
+&lt;main id="main" class="shell"&gt;
+  &lt;section class="intro"&gt;
+    &lt;div&gt;
+      &lt;p class="kicker"&gt;剪贴板劫持 · 防骗教学&lt;/p&gt;
+      &lt;h1&gt;课程资料库&lt;/h1&gt;
+      &lt;p&gt;20 篇教学文档、6 套课件和 13 张图解，均可在网页内阅读。技术内容和演示从识别、核验与应急处置出发重新编排。&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;form class="search" role="search" hidden&gt;
+      &lt;label for="resource-search"&gt;搜索资料库&lt;/label&gt;
+      &lt;input type="search" id="resource-search" autocomplete="off" placeholder="输入关键词，如 DLL、转账或核验"&gt;
+      &lt;p id="result-status" role="status"&gt;&lt;/p&gt;
+    &lt;/form&gt;
+  &lt;/section&gt;
+
+&lt;div class="layout"&gt;
+ &lt;nav class="side" aria-label="资料目录"&gt;
+   &lt;a href="#lessons" data-jump="lessons"&gt;&lt;strong&gt;教学文档&lt;/strong&gt;&lt;small&gt;20 篇&lt;/small&gt;&lt;/a&gt;
+   &lt;a href="#decks" data-jump="decks"&gt;&lt;strong&gt;课件&lt;/strong&gt;&lt;small&gt;6 套&lt;/small&gt;&lt;/a&gt;
+   &lt;a href="#gallery" data-jump="gallery"&gt;&lt;strong&gt;图解&lt;/strong&gt;&lt;small&gt;13 张&lt;/small&gt;&lt;/a&gt;
+   &lt;a href="#web-source" data-jump="web-source"&gt;&lt;strong&gt;网页源码&lt;/strong&gt;&lt;/a&gt;
+ &lt;/nav&gt;
+ &lt;div class="directory"&gt;
+   &lt;p id="empty" class="no-results" hidden&gt;没有找到资料。可以换一个关键词。&lt;/p&gt;
+
+&lt;section class="group" id="lessons" data-group&gt;
+&lt;div class="group-head"&gt;&lt;h2&gt;教学文档&lt;/h2&gt;&lt;p&gt;点开标题阅读正文。课程、原理、代码与附录均提供防护导向的讲解。&lt;/p&gt;&lt;/div&gt;
+&lt;section class="collection" id="course-topics" data-group&gt;
+&lt;h3 class="collection-heading"&gt;课程&lt;/h3&gt;
+&lt;details class="resource" id="course" data-record&gt;
+  &lt;summary&gt;45 分钟公众讲稿&lt;span class="summary-lead"&gt;读完这堂课，你能用自己的话解释剪贴板劫持，并在确认转账前独立发现一处不一致。&lt;/span&gt;&lt;/summary&gt;
+  &lt;div class="reader"&gt;&lt;section&gt;&lt;h3&gt;开场与概念｜0–10 分钟&lt;/h3&gt;&lt;p&gt;先请大家比较两条头尾相同的示例地址，说出自己看了哪些字符。用「临时便签」解释剪贴板，再把便签上的文字与收款页面上最初看到的文字分开。问学生在哪里能够重新看到可信来源。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;场景与演示｜10–28 分钟&lt;/h3&gt;&lt;p&gt;按聊天推荐、下载、安装授权、正常使用、复制、粘贴、确认的顺序走一遍。播放网页上的虚构地址差异演示，让学生先观察，再揭示中间一段。问最终确认页只显示省略形式时应该怎么做。&lt;/p&gt;&lt;ul&gt;&lt;li&gt;先展开完整地址再比对。&lt;/li&gt;&lt;li&gt;把网络和备注一并核验。&lt;/li&gt;&lt;li&gt;任何信息有歧义就暂停。&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;校验与防护｜28–38 分钟&lt;/h3&gt;&lt;p&gt;校验和能帮助发现某些录入错误。另一条格式正确的地址仍可能属于不同的收款方。把「地址格式过关」和「地址确实属于收款方」写成两项，由学生分别给出证据。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;复述与测验｜38–45 分钟&lt;/h3&gt;&lt;p&gt;做四题课堂自测。收尾时由一名同学用一分钟复述怎样从可信来源取得收款信息、在确认页核对全文和网络，以及发现异常时怎样停止操作。让另一名同学补充提交后的取证与联系渠道。&lt;/p&gt;&lt;/section&gt;&lt;/div&gt;
+&lt;/details&gt;
+&lt;details class="resource" id="instructor" data-record&gt;
+  &lt;summary&gt;教师教案与加课&lt;span class="summary-lead"&gt;在浏览器内完成投影、讨论、地址比对和课后自测。建议先走完一遍可见的页面交互。&lt;/span&gt;&lt;/summary&gt;
+  &lt;div class="reader"&gt;&lt;section&gt;&lt;h3&gt;课前检查&lt;/h3&gt;&lt;p&gt;提前打开七个场景、地址差异和应急清单。检查教室投影能显示整条示例地址，必要时调整字号。学生练习使用页面预置的虚构信息。&lt;/p&gt;&lt;ul&gt;&lt;li&gt;准备一张白纸分别记下地址来源、地址全文、最终确认。&lt;/li&gt;&lt;li&gt;安排一人扮演付款人，一人复述收款信息来自哪里。&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;课堂提问&lt;/h3&gt;&lt;p&gt;展示安装提示时，问「允许导入之后，谁能在终端进程里运行代码？」展示确认页时，问「界面打勾说明了什么？」学生应能区分权限、格式、来源三个层次。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;加课与评分&lt;/h3&gt;&lt;p&gt;让学生把五个风险阶段与各自的一条干预动作配对。评分可看是否指出独立可信的来源、能否发现中间字符不一致，以及是否在按下确认前停下来。&lt;/p&gt;&lt;ul&gt;&lt;li&gt;画一条时间线，为每个阶段写下一个防守点。&lt;/li&gt;&lt;li&gt;用虚构素材设计一张能看清整条收款地址的确认页。&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;/div&gt;
+&lt;/details&gt;
+&lt;details class="resource" id="begin" data-record&gt;
+  &lt;summary&gt;零基础讲稿&lt;span class="summary-lead"&gt;从「程序是什么」和「地址是什么」讲起，再用首尾相同的示例练习完整比对。&lt;/span&gt;&lt;/summary&gt;
+  &lt;div class="reader"&gt;&lt;section&gt;&lt;h3&gt;第一讲｜进程、DLL 和剪贴板&lt;/h3&gt;&lt;p&gt;正在运行的应用会有进程。DLL 是一种可被程序加载的库，可能包含可执行代码。操作系统提供剪贴板来暂存复制的数据，随后应用可以读取粘贴的数据内容。安装时，来源可信度和允许的权限都值得看清。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;第二讲｜地址、网络与校验&lt;/h3&gt;&lt;p&gt;收款地址标识接收目标。不同网络可能使用相似的地址外形，部分链的地址具有检查字符或大小写校验。发起转账时还要核对具体网络，以及平台要求的备注或标签。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;板书与自查&lt;/h3&gt;&lt;p&gt;画三栏，分别写「原始来源」「粘贴结果」「最终确认」。先比较前后，再逐段看中间，最后让同学指出确认页显示的是哪一栏。&lt;/p&gt;&lt;ul&gt;&lt;li&gt;学生问「能粘贴就代表地址安全吗？」请回到原始来源重新核验。&lt;/li&gt;&lt;li&gt;学生问「地址格式正确就能确认吗？」请再核对收款方和网络。&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;/div&gt;
+&lt;/details&gt;
+&lt;details class="resource" id="victim" data-record&gt;
+  &lt;summary&gt;受害者全程 · 七幕与事后&lt;span class="summary-lead"&gt;故事中的小周使用一款被推荐的工具，在转账确认前逐步失去辨认地址的机会。各幕都给出一个可以做的动作。&lt;/span&gt;&lt;/summary&gt;
+  &lt;div class="reader"&gt;&lt;section&gt;&lt;h3&gt;第 1–3 幕｜推荐、下载、授权&lt;/h3&gt;&lt;p&gt;群消息给出一个免费插件，下载页又有版本号和使用教程。页面的完成度和聊天评价无法证明下载物的来源。暂停安装，改从已验证的网站或应用商店查找发布者，并弄清请求的权限。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;第 4–5 幕｜使用和复制&lt;/h3&gt;&lt;p&gt;插件能够显示图表，容易让人把可见功能与整体可信度混为一谈。复制地址是常用操作，此时可以先保留收款方的独立可信页面，为稍后的核对准备原始信息。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;第 6–7 幕｜粘贴和提交&lt;/h3&gt;&lt;p&gt;粘贴结果在开头和结尾看起来都对。确认页又可能把中间用省略号折起。展开完整地址逐段核对，同时核实网络。没有完整信息或发现任意一段不同，停止提交。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;事后｜保留可核对的证据&lt;/h3&gt;&lt;p&gt;如果已经提交，记录交易哈希、时间、网络、金额和收款地址。换可信设备，从平台官方渠道报告异常，保留相关页面与截图。留意要求预付费用的追回服务。&lt;/p&gt;&lt;/section&gt;&lt;/div&gt;
+&lt;/details&gt;
+&lt;details class="resource" id="shot-workbook" data-record&gt;
+  &lt;summary&gt;教学素材拍摄工作簿&lt;span class="summary-lead"&gt;用统一的画面规格把七个场景和事后处置拍清楚，方便投影和网页阅读。&lt;/span&gt;&lt;/summary&gt;
+  &lt;div class="reader"&gt;&lt;section&gt;&lt;h3&gt;成组准备镜头&lt;/h3&gt;&lt;p&gt;可以准备二十个镜头位置。按每幕两张保留十六张，用四张展示来源核验、完整地址差异、网络与备注确认、证据保全。拍摄材料采用虚构对话、静态确认页和演示字段。&lt;/p&gt;&lt;ul&gt;&lt;li&gt;推荐与下载拍两套视角，分别标注首次接触和来源复核。&lt;/li&gt;&lt;li&gt;安装与信任期拍提示和正常界面，突出授权决定。&lt;/li&gt;&lt;li&gt;复制、粘贴与确认拍完整字段，事后拍示例交易记录。&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;统一标注&lt;/h3&gt;&lt;p&gt;给每张图加上幕号、简短标题和观察点。画面里出现的名字、金额及地址采用教学示例，文件名用顺序编号。重要提示在背景与文字之间需有足够对比。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;发布前复核&lt;/h3&gt;&lt;p&gt;逐张确认是否给出了充分上下文。截图里的地址差异不能只靠颜色来表达，同时标注不一致的是哪一段。遮蔽真实身份、账户信息和通知，保留演示标签。&lt;/p&gt;&lt;/section&gt;&lt;/div&gt;
+&lt;/details&gt;
+&lt;/section&gt;
+&lt;section class="collection" id="principle-topics" data-group&gt;
+&lt;h3 class="collection-heading"&gt;原理&lt;/h3&gt;
+&lt;details class="resource" id="framework" data-record&gt;
+  &lt;summary&gt;六层框架总览&lt;span class="summary-lead"&gt;把程序接触数据的过程分成六层。用这个框架定位防护视角与责任边界。&lt;/span&gt;&lt;/summary&gt;
+  &lt;div class="reader"&gt;&lt;section&gt;&lt;h3&gt;宿主、界面与事件&lt;/h3&gt;&lt;p&gt;宿主层回答「程序在谁的进程里运行」，界面层回答「用户看到什么」，事件层回答「应用在什么情形下处理数据」。核验时可对照宿主产品、发布者及用户是否主动发起操作。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;数据、策略与交付&lt;/h3&gt;&lt;p&gt;数据层关心数据从哪里来、到哪里去。策略层关心这项处理是否符合用户预期。交付层关心软件由谁提供，用户怎样核实来源与版本。&lt;/p&gt;&lt;ul&gt;&lt;li&gt;数据边界可用页面内的虚构输入来演示。&lt;/li&gt;&lt;li&gt;权限审查需要同时记录产品功能、实际行为和发布来源。&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;怎样使用这张框架&lt;/h3&gt;&lt;p&gt;将「应用要求额外权限」放在宿主与交付层，把「我在确认页看到异常」放在用户可见的界面与数据层。不同层的观察提供线索，归因需要互相印证。&lt;/p&gt;&lt;/section&gt;&lt;/div&gt;
+&lt;/details&gt;
+&lt;details class="resource" id="attack-chain" data-record&gt;
+  &lt;summary&gt;五阶段风险链与干预&lt;span class="summary-lead"&gt;按获得、运行、输入异常、确认、事后五个阶段布置防线，让每个阶段都有可执行的核验。&lt;/span&gt;&lt;/summary&gt;
+  &lt;div class="reader"&gt;&lt;section&gt;&lt;h3&gt;获得与运行&lt;/h3&gt;&lt;p&gt;来源可疑的软件经转发来到设备，随后请求安装或额外权限。查看你主动找到的官方发布入口、发布者与权限说明。授权过程不清楚时暂停并询问供应方。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;出现异常与提交&lt;/h3&gt;&lt;p&gt;正确的原始信息和确认页输入之间可能出现不一致。确认前展开全文，从可信来源独立取得原始信息，重新比对地址、网络、金额与必要备注。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;取证与关联&lt;/h3&gt;&lt;p&gt;从下载记录确认时间与来源，从端点记录确认已加载的软件或模块，从用户界面保存异常内容及确认状态。把线索放进有时间顺序的记录中，便于技术人员复盘。&lt;/p&gt;&lt;ul&gt;&lt;li&gt;日志可能受配置限制，记录覆盖需要先核对。&lt;/li&gt;&lt;li&gt;留证之后从可信设备使用官方渠道报告。&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;/div&gt;
+&lt;/details&gt;
+&lt;details class="resource" id="technical" data-record&gt;
+  &lt;summary&gt;技术说明 · 地址与信任&lt;span class="summary-lead"&gt;地址格式、校验和、网络、来源与归属是不同的信息。转账核验把它们一起考虑。&lt;/span&gt;&lt;/summary&gt;
+  &lt;div class="reader"&gt;&lt;section&gt;&lt;h3&gt;地址格式与校验和&lt;/h3&gt;&lt;p&gt;地址格式可能约束字符、长度、前缀或校验位。例如以太坊的 EIP-55 使用混合大小写表示校验信息，可以辅助发现部分输入错误。地址通过格式校验，仅说明它满足有关格式规则。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;网络与地址归属&lt;/h3&gt;&lt;p&gt;某些网络使用相似的地址表示，单看字面无法确定实际选择了哪条网络。同样，校验不能告诉你地址由谁控制。确认页要显示网络；收款方信息要由可信来源或经独立确认的收款人提供。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;地址簿与钉扎&lt;/h3&gt;&lt;p&gt;钉扎是把已确认过的值作为后续比对基准，地址白名单和经核验的地址簿是常见应用。首次保存时要在独立可信的来源核对全文、网络和标签。遇到地址更新时重新完成首次核验。&lt;/p&gt;&lt;/section&gt;&lt;/div&gt;
+&lt;/details&gt;
+&lt;details class="resource" id="trace" data-record&gt;
+  &lt;summary&gt;时序演示 · 核验路径&lt;span class="summary-lead"&gt;用页面内的固定示例跟踪数据在用户操作中的位置，并找出可见的安全检查点。&lt;/span&gt;&lt;/summary&gt;
+  &lt;div class="reader"&gt;&lt;section&gt;&lt;h3&gt;起点｜得到原始信息&lt;/h3&gt;&lt;p&gt;从可信来源取得地址，保留可随时回看的原始页面。在教学场景使用页面预置的 DEMO 字段以便每位同学看到同一份材料。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;中点｜呈现待确认信息&lt;/h3&gt;&lt;p&gt;在模拟确认区域查看另一条字符串。初始状态可以比较头尾，点开差异后再检查主体，体会截断显示会漏掉哪些字符。用独立标签记录原始地址与确认值。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;终点｜满足全部核验再确认&lt;/h3&gt;&lt;p&gt;在真实操作中同时核验地址全文、网络与平台需要的备注。出现任意一处差异就退出当前确认。用页面示例讲解时，学生只需说出发现的差异和应采取的动作。&lt;/p&gt;&lt;/section&gt;&lt;/div&gt;
+&lt;/details&gt;
+&lt;/section&gt;
+&lt;section class="collection" id="code-topics" data-group&gt;
+&lt;h3 class="collection-heading"&gt;代码&lt;/h3&gt;
+&lt;details class="resource" id="anatomy" data-record&gt;
+  &lt;summary&gt;代码审阅 · 数据边界&lt;span class="summary-lead"&gt;用代码审阅的方式看应用实际处理了什么数据。练习聚焦本教学网页和防御检查。&lt;/span&gt;&lt;/summary&gt;
+  &lt;div class="reader"&gt;&lt;section&gt;&lt;h3&gt;从页面状态读起&lt;/h3&gt;&lt;p&gt;首页预置两条虚构地址。按钮只改变网页内的显示状态，浏览器把不同的一段标记出来。可以在本站源码里从按钮和页面标签找到对应行为，再顺着事件处理找到文字反馈。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;核对资料库的数据来源&lt;/h3&gt;&lt;p&gt;资料库的文字、图片与课件都来自公开页面的文件。阅读页面源代码时，先找文档结构与样式，再看是否存在请求、设备权限或用户资料输入。用浏览器网络面板可以核对页面实际加载了什么。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;把审阅结论写成证据&lt;/h3&gt;&lt;p&gt;记录文件名、入口、数据的来源、显示位置，以及改变前后可见的差异。源码描述的功能与运行时观察互相支持。&lt;/p&gt;&lt;ul&gt;&lt;li&gt;列出用户触发的动作。&lt;/li&gt;&lt;li&gt;记录当前页面内可观察的变化。&lt;/li&gt;&lt;li&gt;把可重复的证据和基于证据的判断分开写。&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;p class="lesson-links"&gt;&lt;a href="source.html"&gt;阅读本站网页源码&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;
+&lt;/details&gt;
+&lt;details class="resource" id="code-by-layer" data-record&gt;
+  &lt;summary&gt;按层读本站源码&lt;span class="summary-lead"&gt;从页面结构、显示样式、交互和资料入口四个角度理解这个网站，练习分辨设备权限与网页交互。&lt;/span&gt;&lt;/summary&gt;
+  &lt;div class="reader"&gt;&lt;section&gt;&lt;h3&gt;文档和内容层&lt;/h3&gt;&lt;p&gt;HTML 为每个场景、练习和应急步骤提供标题和语义结构。链接的锚点把访客引到对应内容。图解后面的说明帮助读者在小屏幕和辅助阅读工具上理解画面。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;显示和交互层&lt;/h3&gt;&lt;p&gt;CSS 控制字号、主题、卡片间距和移动端布局。JavaScript 管理课堂练习、地址差异反馈以及章节查找。检查代码时跟着一个用户动作走，确认输入、状态变化和预期输出。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;资料层&lt;/h3&gt;&lt;p&gt;课件与正文的教学信息在浏览器中直接可读。选一篇讲稿，再切到图解对照同一个防护动作。最后打开源码页，用页面标题、段落和功能名称定位实现。&lt;/p&gt;&lt;/section&gt;&lt;p class="lesson-links"&gt;&lt;a href="source.html"&gt;阅读本站网页源码&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;
+&lt;/details&gt;
+&lt;details class="resource" id="code-diff" data-record&gt;
+  &lt;summary&gt;结构对比 · 核验与自动替换&lt;span class="summary-lead"&gt;设备上的应用可能拥有类似的功能能力。授权、目标、数据去向和干预时机决定如何评价它的操作。&lt;/span&gt;&lt;/summary&gt;
+  &lt;div class="reader"&gt;&lt;section&gt;&lt;h3&gt;对照一｜发起者与授权&lt;/h3&gt;&lt;p&gt;在核验工具中，用户主动打开示例并点击比对按钮。审阅陌生工具时，问清哪些动作由用户发起、哪些是后台行为，以及产品描述是否明确授权范围。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;对照二｜结果与去向&lt;/h3&gt;&lt;p&gt;可审计的核验结果应把来源、当前值、不同位置和暂停提示呈现出来。观察其他工具时，应核对它实际接触的数据与宣称用途是否一致，必要时由技术人员分析流程。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;拿到陌生模块怎样检查&lt;/h3&gt;&lt;p&gt;按「来源、权限、签名与哈希、运行记录」整理证据。比如签名人与预期供应商不同，就记录文件身份并向供应方复核。将无签名、路径异常或首次出现视为调查线索。&lt;/p&gt;&lt;/section&gt;&lt;p class="lesson-links"&gt;&lt;a href="source.html"&gt;阅读本站网页源码&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;
+&lt;/details&gt;
+&lt;details class="resource" id="annotated" data-record&gt;
+  &lt;summary&gt;源码全景 · 阅读路线&lt;span class="summary-lead"&gt;从用户可见行为回到网页文件，建立一套能复述和验证的阅读顺序。&lt;/span&gt;&lt;/summary&gt;
+  &lt;div class="reader"&gt;&lt;section&gt;&lt;h3&gt;先从界面找入口&lt;/h3&gt;&lt;p&gt;打开展示示例的首页，找到核验按钮和两条短的虚构地址。跟源码中的文字标签找到元素，然后查看控制显示的代码怎样切换状态。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;再从功能查状态与反馈&lt;/h3&gt;&lt;p&gt;在课堂自测选择一个选项，观察进度、答题结果和下一步。试着在源代码中找出题目、答案状态与文本反馈。可把不同选项和响应写成一张小表。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;最后从文档看可访问性&lt;/h3&gt;&lt;p&gt;检查标题、链接、按钮、图片说明与键盘焦点。关掉脚本时仍可浏览的内容，适合作为可读性检查的一环。把发现写成「操作、实际结果、期望结果」三项。&lt;/p&gt;&lt;/section&gt;&lt;p class="lesson-links"&gt;&lt;a href="source.html"&gt;阅读本站网页源码&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;
+&lt;/details&gt;
+&lt;/section&gt;
+&lt;section class="collection" id="appendix-topics" data-group&gt;
+&lt;h3 class="collection-heading"&gt;附录&lt;/h3&gt;
+&lt;details class="resource" id="dll-appendix" data-record&gt;
+  &lt;summary&gt;附录 A · DLL 防护手册&lt;span class="summary-lead"&gt;从文件、进程、接口与权限四个角度理解 DLL，便于审查交易终端中的陌生组件。&lt;/span&gt;&lt;/summary&gt;
+  &lt;div class="reader"&gt;&lt;section&gt;&lt;h3&gt;从文件到进程&lt;/h3&gt;&lt;p&gt;DLL 是 Windows 上的动态链接库，可能包含供应用调用的代码与数据。导入表示依赖外部功能，导出表示对宿主或其他模块开放接口。文件存在、实际加载和具体行为是三种不同的证据。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;接口、兼容性与影响&lt;/h3&gt;&lt;p&gt;宿主与模块需要遵循一致的接口约定，例如参数、调用约定、编码及内存所有权。接口不匹配可能引起崩溃。可执行的插件进程内可用权限与宿主有关，安装时应确认功能和来源是否匹配。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;审查与处置&lt;/h3&gt;&lt;p&gt;核对实际模块路径、供应商签名、文件哈希和首次出现时间。观察稳定性问题与最近安装之间是否有关联。可疑时暂停相关业务操作，保留记录并交给技术同事确认。&lt;/p&gt;&lt;ul&gt;&lt;li&gt;软件发行说明与实际附件应一致。&lt;/li&gt;&lt;li&gt;权限申请应与明确功能相关。&lt;/li&gt;&lt;li&gt;有疑问时联系已核验的官方支持。&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;/div&gt;
+&lt;/details&gt;
+&lt;details class="resource" id="monitor-appendix" data-record&gt;
+  &lt;summary&gt;附录 B · 观测与监控原理&lt;span class="summary-lead"&gt;将模块加载、内容变化和用户反馈合并研判，建立能说明覆盖范围的防御记录。&lt;/span&gt;&lt;/summary&gt;
+  &lt;div class="reader"&gt;&lt;section&gt;&lt;h3&gt;模块加载与基线&lt;/h3&gt;&lt;p&gt;Sysmon 的 ImageLoad（事件 7）可记录进程加载的模块，是否记录取决于监控配置。它适合回答「何时哪个进程加载了什么」，可结合已批准软件清单与签名信息判断是否异常。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;剪贴板变化与个人信息&lt;/h3&gt;&lt;p&gt;Sysmon 的 ClipboardChange（事件 24）记录新的剪贴板内容相关事件。在监控范围内，事件可提供时间线线索。内容变化记录本身不足以说明哪些应用读取过数据。日志可能涉及敏感内容，采集和查阅都要遵守权限与留存要求。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;关联、复核和升级&lt;/h3&gt;&lt;p&gt;将下载时间、加载记录和用户报告的异常时刻排序。先查看是否覆盖对应的设备与时段，再判断线索是否有独立证据支持。向负责的安全人员提交摘要和证据位置，妥善保留原始记录。&lt;/p&gt;&lt;/section&gt;&lt;p class="lesson-links"&gt;&lt;a href="https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon"&gt;Microsoft Sysmon 事件参考&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;
+&lt;/details&gt;
+&lt;details class="resource" id="real-world" data-record&gt;
+  &lt;summary&gt;真实案例与源码阅读路线&lt;span class="summary-lead"&gt;把真实案例用于识别风险，把站点源码用于练习审阅。每种材料针对一个明确问题。&lt;/span&gt;&lt;/summary&gt;
+  &lt;div class="reader"&gt;&lt;section&gt;&lt;h3&gt;案例阅读&lt;/h3&gt;&lt;p&gt;从安全机构发布的事件分析开始，先找受影响的人群、最初遇到的异常和可用的应急动作。能在另一个来源确证的事实应单独记录，把推测标记清楚。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;源码阅读&lt;/h3&gt;&lt;p&gt;从本站的界面文案进入源码，读取地址差异的显示代码和课堂引导。记录是否有设备权限请求、外传数据的请求，以及用户执行操作的位置。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;课堂讨论&lt;/h3&gt;&lt;p&gt;选一份案例，做两列表。左栏写用户在什么时候看到了什么，右栏写如果当时复核独立信息能否阻止提交。用这个表说明防御重点与可观测性局限。&lt;/p&gt;&lt;/section&gt;&lt;/div&gt;
+&lt;/details&gt;
+&lt;details class="resource" id="resources" data-record&gt;
+  &lt;summary&gt;资源速查&lt;span class="summary-lead"&gt;从问题出发选资料。先定位用途，再看正文与课件。&lt;/span&gt;&lt;/summary&gt;
+  &lt;div class="reader"&gt;&lt;section&gt;&lt;h3&gt;加入课堂前&lt;/h3&gt;&lt;p&gt;从「45 分钟公众讲稿」安排节奏，从「零基础讲稿」介绍术语，再用「受害者全程」进行角色讨论。学生独立复习可直接看自查手册或做首页四题自测。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;核验设备和网络&lt;/h3&gt;&lt;p&gt;产品权限看供应商官方帮助与发布说明；端点日志的字段及范围看 Microsoft Sysmon 官方文档；地址格式的目的和局限看相应链的标准。站点页脚附有安全案例和取证指南。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;提交后查什么&lt;/h3&gt;&lt;p&gt;优先看「应急处置」和「学生自查手册」，根据状态获取交易哈希、网络和时间。平台支持入口和当地的报案渠道应从可信设备手动查证。&lt;/p&gt;&lt;/section&gt;&lt;p class="lesson-links"&gt;&lt;a href="https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon"&gt;Microsoft Sysmon 事件参考&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;
+&lt;/details&gt;
+&lt;details class="resource" id="safety" data-record&gt;
+  &lt;summary&gt;安全边界与课堂纪律&lt;span class="summary-lead"&gt;保护课堂设备和真实账户信息，同时让学习者能完整练习观察、核验和取证。&lt;/span&gt;&lt;/summary&gt;
+  &lt;div class="reader"&gt;&lt;section&gt;&lt;h3&gt;素材边界&lt;/h3&gt;&lt;p&gt;教学画面使用虚构地址和示例交易，不需要学生输入个人账户或现有收款信息。真实事件讨论只保留足以说明风险的字段，先移除身份、设备和账户信息。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;课堂操作边界&lt;/h3&gt;&lt;p&gt;地址比对练习在页面内用固定示例完成。学习者可以暂停、比较和讲述可见的差异，设备设置和业务账户继续使用既有防护措施。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;发布检查&lt;/h3&gt;&lt;p&gt;每个场景都标注「教学示意」，检查截图中是否出现真实账号和联系人。能把材料转化成可操作防护动作时，把动作紧邻案例和截图展示。&lt;/p&gt;&lt;/section&gt;&lt;/div&gt;
+&lt;/details&gt;
+&lt;details class="resource" id="student" data-record&gt;
+  &lt;summary&gt;学生自查手册&lt;span class="summary-lead"&gt;发现异常时按「暂停、核对、留证」走一遍。准备转账时按清单核对来源与确认页。&lt;/span&gt;&lt;/summary&gt;
+  &lt;div class="reader"&gt;&lt;section&gt;&lt;h3&gt;设备与来源&lt;/h3&gt;&lt;p&gt;近期安装过来路不明的工具或开启额外权限时，查看发布来源、权限和最近的更新记录。发现复制内容与预期不同，就停止在该设备上确认。已有可疑提示时联系技术支持。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;提交前逐项确认&lt;/h3&gt;&lt;p&gt;从已独立确认的渠道取得收款信息。在最终确认界面看完整地址、网络、金额和备注或标签。任何一次试转只反映该次记录，后续转账仍需要重新核验。&lt;/p&gt;&lt;ul&gt;&lt;li&gt;来源经过独立核验。&lt;/li&gt;&lt;li&gt;地址全文与原始来源一致。&lt;/li&gt;&lt;li&gt;网络、金额及必要备注正确。&lt;/li&gt;&lt;/ul&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;提交后的信息单&lt;/h3&gt;&lt;p&gt;记录交易哈希、所在网络、时间、金额、完整收款地址、可疑来源与页面截图。用可信设备联系平台官方支持，并保留报告编号。对声称能追回款项并要求预付费用的账号保持警惕。&lt;/p&gt;&lt;/section&gt;&lt;/div&gt;
+&lt;/details&gt;
+&lt;details class="resource" id="screenshot" data-record&gt;
+  &lt;summary&gt;截图清单与标注&lt;span class="summary-lead"&gt;按教学顺序展示授权、来源、差异、确认、取证五类画面，读者能跟着图上的提示核验。&lt;/span&gt;&lt;/summary&gt;
+  &lt;div class="reader"&gt;&lt;section&gt;&lt;h3&gt;建议的七张画面&lt;/h3&gt;&lt;p&gt;依次展示 DLL 权限提示、正常界面、可信收款信息、最终确认页、地址簿核验提示、权限状态、示例交易记录。每幅图同时给出一个观察点，避免只放窗口截图。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;发行时的标注&lt;/h3&gt;&lt;p&gt;截图要包含理解判断所需的控件、面包屑或页面标题。用文字标签指明差异和核验字段。每张图统一注明教学示例，并关联到相应的场景或清单。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;隐私与显示&lt;/h3&gt;&lt;p&gt;遮蔽真实设备和身份资料，改用虚构地址及记录。确保长地址和交易标识在窄屏可换行或完整查看。字体缩小后观察点仍需清晰，颜色提示要有文字支持。&lt;/p&gt;&lt;/section&gt;&lt;/div&gt;
+&lt;/details&gt;
+&lt;/section&gt;
+&lt;/section&gt;&lt;section class="group" id="decks" data-group&gt;
+&lt;div class="group-head"&gt;&lt;h2&gt;课件&lt;/h2&gt;&lt;p&gt;按原有页序改编为 130 页可展开的网页课件，适合逐页讲授或在手机上阅读。&lt;/p&gt;&lt;/div&gt;
+&lt;details class="resource" id="deck-01" data-record&gt;
+  &lt;summary&gt;受害者全程 · 图解版&lt;span class="summary-lead"&gt;28 页 · 逐屏看七个场景、转账后处置，以及宿主软件和安全日志中的防护线索。&lt;/span&gt;&lt;/summary&gt;
+  &lt;div class="reader"&gt;&lt;p class="deck-meta"&gt;28 页 · 网页课件防护改编&lt;/p&gt;&lt;div class="deck-slides"&gt;&lt;article class="slide" id="deck-01-page-1"&gt;
+  &lt;span class="slide-index"&gt;第 1 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;从一条群消息讲起&lt;/h3&gt;&lt;p&gt;假设小周在群里看到一款免费交易插件。课程跟随她从接触链接到检查到账的过程，找出还来得及停下的位置。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-01-page-2"&gt;
+  &lt;span class="slide-index"&gt;第 2 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;七个场景与一段事后处置&lt;/h3&gt;&lt;p&gt;接触推荐、进入下载页、遇到权限提示、观察软件运行、复制地址、粘贴比对、最终确认，是转账前的七个场景。&lt;/p&gt;&lt;p&gt;发现款项没有到账后，要把处置重点切换为留证、报告和保护账户。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-01-page-3"&gt;
+  &lt;span class="slide-index"&gt;第 3 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;① 群里的限时推荐&lt;/h3&gt;&lt;p&gt;推荐者可能是陌生群友，也可能在冒用熟悉的人。群消息里的截图和评价只提供线索，发布者身份应当从独立渠道核实。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-01-page-4"&gt;
+  &lt;span class="slide-index"&gt;第 4 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;② 看起来正式的下载页&lt;/h3&gt;&lt;p&gt;产品标识、视觉风格和“官方”字样都可以复制。通过已知官网、应用商店或管理员给出的入口，重新寻找同一份软件。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-01-page-5"&gt;
+  &lt;span class="slide-index"&gt;第 5 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;③ 第一次看到权限提示&lt;/h3&gt;&lt;p&gt;某些交易插件需要额外权限才能加载组件。对来源不明或理由含糊的软件，先取消并向可信支持渠道确认其职责与权限。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-01-page-6"&gt;
+  &lt;span class="slide-index"&gt;第 6 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;④ 平时看不出异常&lt;/h3&gt;&lt;p&gt;插件可能一直展示正常界面，用户也可能在这段时间里多次成功操作。独立核验应当成为每次付款的固定步骤。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-01-page-7"&gt;
+  &lt;span class="slide-index"&gt;第 7 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;⑤ 从可信来源取得地址&lt;/h3&gt;&lt;p&gt;打开收款方已经确认的页面，记下完整地址和网络。条件允许时，在另一台可信设备保留来源，直到最终核对结束。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-01-page-8"&gt;
+  &lt;span class="slide-index"&gt;第 8 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;复制到粘贴之间&lt;/h3&gt;&lt;p&gt;复制收款信息和粘贴到付款界面发生在不同时间。防护的切入点是在付款界面重新比对，确保提交时使用了可信来源上的完整信息。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-01-page-9"&gt;
+  &lt;span class="slide-index"&gt;第 9 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;⑥ 粘贴后核对完整信息&lt;/h3&gt;&lt;p&gt;两段演示字符串可以拥有相同的头尾。将完整信息分段读取再比对，重点覆盖中间段，并核对交易网络。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-01-page-10"&gt;
+  &lt;span class="slide-index"&gt;第 10 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;⑦ 提交前最后一次复核&lt;/h3&gt;&lt;p&gt;检查接收方、网络和金额。确认页如果把地址折叠成省略号，应展开完整内容，再决定是否继续。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-01-page-11"&gt;
+  &lt;span class="slide-index"&gt;第 11 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;事后用交易记录定位&lt;/h3&gt;&lt;p&gt;到钱包或服务商的官方交易历史查看记录。保存交易哈希、网络、时间、金额和页面截图，按平台指引提交。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-01-page-12"&gt;
+  &lt;span class="slide-index"&gt;第 12 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;每一屏都可能看起来正常&lt;/h3&gt;&lt;p&gt;下载页可能像官网，插件可能照常显示结果，交易界面仍可能接受一个格式合规的陌生地址。把验证建立在独立来源和最终复核上。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-01-page-13"&gt;
+  &lt;span class="slide-index"&gt;第 13 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;理想的确认画面&lt;/h3&gt;&lt;p&gt;画面应当让用户看到完整地址、网络、金额和来源。可以将“查看完整地址”和“返回修改”放在提交旁边，减少错过核验的几率。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-01-page-14"&gt;
+  &lt;span class="slide-index"&gt;第 14 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;三道防线&lt;/h3&gt;&lt;p&gt;下载前核来源，授权时核权限，确认时核完整收款信息。这三道检查分布在不同阶段，其中任何一道发现不符，都可以终止流程。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-01-page-15"&gt;
+  &lt;span class="slide-index"&gt;第 15 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;把故事换成自己的课堂素材&lt;/h3&gt;&lt;p&gt;使用离线画面、虚构场景和固定演示字符串。涉及真实账户的截图，应先移除可识别资料，再按授权范围使用。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-01-page-16"&gt;
+  &lt;span class="slide-index"&gt;第 16 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;把主动权带到最终确认&lt;/h3&gt;&lt;p&gt;流程操作顺利时，也要为核验预留时间。能够从独立渠道确认收款信息，再完成付款。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-01-page-17"&gt;
+  &lt;span class="slide-index"&gt;第 17 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;附录 A1 · 插件为何值得关注&lt;/h3&gt;&lt;p&gt;宿主软件可以使用第三方组件。评估风险时，先问组件是否来自已知发布者，是否确有业务用途，以及权限由谁批准。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-01-page-18"&gt;
+  &lt;span class="slide-index"&gt;第 18 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;附录 A2 · 认识动态链接库&lt;/h3&gt;&lt;p&gt;DLL 是 Windows 应用可加载的共享模块。普通用户只需了解文件出处、维护者和它要访问的能力。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-01-page-19"&gt;
+  &lt;span class="slide-index"&gt;第 19 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;附录 A3 · 组件生命周期&lt;/h3&gt;&lt;p&gt;把下载、安装、授权、运行作为四个可记录的阶段。出现异常后，时间线有助于把来源和潜在影响对应起来。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-01-page-20"&gt;
+  &lt;span class="slide-index"&gt;第 20 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;附录 A4 · 判断意外行为&lt;/h3&gt;&lt;p&gt;区分用户明确发起的操作与组件额外触发的变更。对后者，重点追问是否获得了用户授权，以及是否有可回溯的记录。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-01-page-21"&gt;
+  &lt;span class="slide-index"&gt;第 21 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;附录 A5 · 文件属性能告诉你什么&lt;/h3&gt;&lt;p&gt;安全人员可查看文件类型、版本、数字签名和哈希，和官方发布的版本对应。字段不全或不一致时，进一步向维护方核实。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-01-page-22"&gt;
+  &lt;span class="slide-index"&gt;第 22 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;附录 A6 · 公开接口的核对线索&lt;/h3&gt;&lt;p&gt;文档描述的功能可以与安全团队收集的组件信息对照。对名称的判断需要结合来源、签名和宿主行为。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-01-page-23"&gt;
+  &lt;span class="slide-index"&gt;第 23 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;附录 A7 · 先读分析报告&lt;/h3&gt;&lt;p&gt;收到陌生组件时，先查可信供应商公告和安全团队的结论。保留样本标识及接收时间，交由有授权的团队分析。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-01-page-24"&gt;
+  &lt;span class="slide-index"&gt;第 24 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;附录 A8 · 认识应用边界&lt;/h3&gt;&lt;p&gt;组件会与宿主交换数据。用户需要知道组件接触的数据有哪些，管理员需要检查所选权限是否必要并限制范围。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-01-page-25"&gt;
+  &lt;span class="slide-index"&gt;第 25 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;附录 B1 · 谁在后台继续运行&lt;/h3&gt;&lt;p&gt;关闭窗口后，部分经批准的工具仍会继续运行。出现异常时，记录正在使用的工具并交由管理员核对终端活动。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-01-page-26"&gt;
+  &lt;span class="slide-index"&gt;第 26 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;附录 B2 · 看不到窗口时如何判断&lt;/h3&gt;&lt;p&gt;没有图标或可见窗口的组件，也可能有后台活动。结合软件的预期行为、已授权功能以及已有日志判断。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-01-page-27"&gt;
+  &lt;span class="slide-index"&gt;第 27 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;附录 B3 · 系统日志能帮什么&lt;/h3&gt;&lt;p&gt;Windows 的 Sysmon 可根据设置提供进程和模块等事件线索。由已授权的安全团队启用相应监控，并按数据政策限定采集。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-01-page-28"&gt;
+  &lt;span class="slide-index"&gt;第 28 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;附录 B4 · 将多个信号结合&lt;/h3&gt;&lt;p&gt;把软件来源、签名状态、加载时间和用户报告放到同一条时间线。多条相互支持的线索应进入人工复核。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/details&gt;
+&lt;details class="resource" id="deck-02" data-record&gt;
+  &lt;summary&gt;零基础版 · 从认识剪贴板开始&lt;span class="summary-lead"&gt;26 页 · 把操作系统基础、转账前核验和桌面演练连成一堂入门课。&lt;/span&gt;&lt;/summary&gt;
+  &lt;div class="reader"&gt;&lt;p class="deck-meta"&gt;26 页 · 网页课件防护改编&lt;/p&gt;&lt;div class="deck-slides"&gt;&lt;article class="slide" id="deck-02-page-1"&gt;
+  &lt;span class="slide-index"&gt;第 1 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;认识剪贴板劫持&lt;/h3&gt;&lt;p&gt;剪贴板是复制与粘贴之间的短期存放处。理解这个过程后，读者就能解释为何付款前还需要再次核对。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-02-page-2"&gt;
+  &lt;span class="slide-index"&gt;第 2 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;这堂课怎么走&lt;/h3&gt;&lt;p&gt;先弄清进程、组件、剪贴板和地址的含义，再用虚构地址练习比对，最后做一轮自查。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-02-page-3"&gt;
+  &lt;span class="slide-index"&gt;第 3 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;认识进程和 DLL&lt;/h3&gt;&lt;p&gt;进程可以看作正在运行的程序。DLL 是程序可加载的共享组件，软件的工作范围可能因此扩展。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-02-page-4"&gt;
+  &lt;span class="slide-index"&gt;第 4 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;剪贴板可以跨应用交接内容&lt;/h3&gt;&lt;p&gt;在一个软件中复制，再到另一个软件粘贴，是常见工作流程。涉及重要信息时，粘贴后要重新与可信来源比对。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-02-page-5"&gt;
+  &lt;span class="slide-index"&gt;第 5 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;地址有格式和网络&lt;/h3&gt;&lt;p&gt;不同网络的地址有各自格式。付款时既要选择正确网络，也要确认完整地址确实属于预期收款方。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-02-page-6"&gt;
+  &lt;span class="slide-index"&gt;第 6 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;宿主和组件的关系&lt;/h3&gt;&lt;p&gt;用户看到的是宿主软件的界面，部分功能由插件提供。安装新功能时，应一并核对插件来源和维护记录。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-02-page-7"&gt;
+  &lt;span class="slide-index"&gt;第 7 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;授权之后有什么变化&lt;/h3&gt;&lt;p&gt;组件获得授权后可以在允许的范围内处理数据。应向发布方查明用途，并将授权范围限定在任务所需。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-02-page-8"&gt;
+  &lt;span class="slide-index"&gt;第 8 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;安装确认如何做决定&lt;/h3&gt;&lt;p&gt;先核对文件来源、发布者和用途。任一项无法确认时，暂缓授权并请维护者提供明确说明。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-02-page-9"&gt;
+  &lt;span class="slide-index"&gt;第 9 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;交易软件为什么提示导入&lt;/h3&gt;&lt;p&gt;插件要求导入外部组件时，应先通过官方帮助核对软件、发布者和操作。来源不明的插件保持禁用。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-02-page-10"&gt;
+  &lt;span class="slide-index"&gt;第 10 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;安装前的三道问题&lt;/h3&gt;&lt;p&gt;我从哪里拿到文件？我为什么需要这个功能？我是否清楚它会获得哪些权限？逐一回答，再考虑授权。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-02-page-11"&gt;
+  &lt;span class="slide-index"&gt;第 11 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;判断剪贴板工具是否符合预期&lt;/h3&gt;&lt;p&gt;正常工具通常有明确功能、用户操作入口和控制。看到复制结果和来源不同时，先停下并记录当时使用的软件。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-02-page-12"&gt;
+  &lt;span class="slide-index"&gt;第 12 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;可见界面与后台活动&lt;/h3&gt;&lt;p&gt;窗口提供交互，后台服务也可能在其职责范围内运行。确认行为与用户授权和文档描述是否匹配。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-02-page-13"&gt;
+  &lt;span class="slide-index"&gt;第 13 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;软件设置如何沟通权限&lt;/h3&gt;&lt;p&gt;有用的设置解释允许的活动、可访问的数据和关闭入口。安装说明对这些问题含糊时，应询问管理员。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-02-page-14"&gt;
+  &lt;span class="slide-index"&gt;第 14 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;读取其他应用复制的数据会带来什么&lt;/h3&gt;&lt;p&gt;用户可能在应用之间复制合同、个人信息或收款地址。团队应了解哪些工具获准处理这些内容，并限制其权限。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-02-page-15"&gt;
+  &lt;span class="slide-index"&gt;第 15 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;用粘贴结果做最简单的核验&lt;/h3&gt;&lt;p&gt;在付款前打开完整地址视图，同可信来源逐段比对。发现任何差异，返回重新检查来源和设备状态。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-02-page-16"&gt;
+  &lt;span class="slide-index"&gt;第 16 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;一次核验要经过哪些状态&lt;/h3&gt;&lt;p&gt;可信地址、粘贴结果和确认页是三个场景。确保三个场景所展示的完整信息一致，再确认金额和网络。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-02-page-17"&gt;
+  &lt;span class="slide-index"&gt;第 17 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;为什么长字符串容易看错&lt;/h3&gt;&lt;p&gt;人容易扫过中间段，对熟悉的头尾做快速判断。按固定长度分段核对可以减少这一类误判。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-02-page-18"&gt;
+  &lt;span class="slide-index"&gt;第 18 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;用固定示例标记差异&lt;/h3&gt;&lt;p&gt;对照课堂图片中的两段演示文字。练习先圈出不同字符，再说明这一处差异为什么足以取消提交。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-02-page-19"&gt;
+  &lt;span class="slide-index"&gt;第 19 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;区分有意操作和意外改变&lt;/h3&gt;&lt;p&gt;用户主动点击的动作，应产生可理解的结果。未获授权就改变付款信息，说明有必要停下来查因。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-02-page-20"&gt;
+  &lt;span class="slide-index"&gt;第 20 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;校验和能检查什么&lt;/h3&gt;&lt;p&gt;支持校验和的地址格式可发现某些输入错误。校验通过提供格式上的信号，收款方身份仍需单独核实。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-02-page-21"&gt;
+  &lt;span class="slide-index"&gt;第 21 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;本课的展示范围&lt;/h3&gt;&lt;p&gt;课堂用固定文本、示例窗口和虚构交易记录来观察风险。打开普通浏览器即可完成，不需要安装组件。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-02-page-22"&gt;
+  &lt;span class="slide-index"&gt;第 22 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;开始桌面演练&lt;/h3&gt;&lt;p&gt;选一张虚构收款信息卡，从中抄下完整文字，再和稍后出现的确认信息逐段比对。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-02-page-23"&gt;
+  &lt;span class="slide-index"&gt;第 23 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;依次观察三处变化&lt;/h3&gt;&lt;p&gt;先看两个示例是否同一网络，再逐段对比地址，最后说明金额为什么也要复核。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-02-page-24"&gt;
+  &lt;span class="slide-index"&gt;第 24 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;怎样读一份组件安全文档&lt;/h3&gt;&lt;p&gt;从发布者、功能、权限和更新渠道四项开始。陌生工具来源不清时，交由具备授权的维护人员处理。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-02-page-25"&gt;
+  &lt;span class="slide-index"&gt;第 25 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;五道自测题&lt;/h3&gt;&lt;p&gt;说出剪贴板的用途、完整地址为何要复核、网络为何要对照、遇到陌生插件如何处理，以及发现不符时的第一步。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-02-page-26"&gt;
+  &lt;span class="slide-index"&gt;第 26 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;下一步是形成习惯&lt;/h3&gt;&lt;p&gt;在下载、授权、核验三个环节加上主动停顿。用独立渠道确认重要信息，练习在有催促时照样复核。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/details&gt;
+&lt;details class="resource" id="deck-03" data-record&gt;
+  &lt;summary&gt;受害者全程 · 场景复盘版&lt;span class="summary-lead"&gt;19 页 · 根据详细场景逐页复盘，覆盖手机确认、异常处置和课堂截图规范。&lt;/span&gt;&lt;/summary&gt;
+  &lt;div class="reader"&gt;&lt;p class="deck-meta"&gt;19 页 · 网页课件防护改编&lt;/p&gt;&lt;div class="deck-slides"&gt;&lt;article class="slide" id="deck-03-page-1"&gt;
+  &lt;span class="slide-index"&gt;第 1 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;一次异常转账的走查&lt;/h3&gt;&lt;p&gt;以下情节用于课堂讨论。把注意力放在每一屏展示的信息、用户采取的动作和可用的验证方法上。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-03-page-2"&gt;
+  &lt;span class="slide-index"&gt;第 2 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;流程概览&lt;/h3&gt;&lt;p&gt;从群消息点开软件，到下载、授权、观望、复制、粘贴、确认，风险会跨越多个应用。发现到账异常时，切换到留证和报告。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-03-page-3"&gt;
+  &lt;span class="slide-index"&gt;第 3 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;① 消息从哪里来&lt;/h3&gt;&lt;p&gt;熟悉的群名和发言人的头像都可能让人放松警惕。通过此前保存的独立联系方式核对推荐内容。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-03-page-4"&gt;
+  &lt;span class="slide-index"&gt;第 4 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;② 下载页展示了什么&lt;/h3&gt;&lt;p&gt;认识品牌设计与版本号是正常第一步，随后还要核对网址和发布者。通过官方入口找不到同一版本时，暂停下载。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-03-page-5"&gt;
+  &lt;span class="slide-index"&gt;第 5 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;③ 插件提出额外授权&lt;/h3&gt;&lt;p&gt;额外权限通常在启动插件时显得十分顺理成章。看到与预期功能不一致的权限，先让受信任的维护者解释合理性。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-03-page-6"&gt;
+  &lt;span class="slide-index"&gt;第 6 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;④ 软件照常运行&lt;/h3&gt;&lt;p&gt;正常界面形成一种持续的熟悉感。付款仍是一次独立决策，应对收款信息做单独核验。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-03-page-7"&gt;
+  &lt;span class="slide-index"&gt;第 7 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;⑤ 地址的可信副本&lt;/h3&gt;&lt;p&gt;用独立渠道核对收款方，将完整地址保留在可见的可信来源里，等待在确认页重新比对。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-03-page-8"&gt;
+  &lt;span class="slide-index"&gt;第 8 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;复制和确认之间做好复核&lt;/h3&gt;&lt;p&gt;用户很容易把复制动作当作信息已确认。检查应落在三项最终实际值上，完整地址、网络和金额。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-03-page-9"&gt;
+  &lt;span class="slide-index"&gt;第 9 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;⑥ 粘贴后容易只看头尾&lt;/h3&gt;&lt;p&gt;许多界面只突出显示首尾，人在压力下也倾向于快速略读。展开完整地址后，可以让另一人复核关键批量操作。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-03-page-10"&gt;
+  &lt;span class="slide-index"&gt;第 10 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;⑦ 点击确认之前&lt;/h3&gt;&lt;p&gt;确认页是转出前的最后检查点。有不明变化时退出流程，改从可信设备和官方渠道核对。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-03-page-11"&gt;
+  &lt;span class="slide-index"&gt;第 11 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;事后第一步是保全材料&lt;/h3&gt;&lt;p&gt;查看官方交易记录和网络状态，保留交易哈希、时间、金额及相关界面。及时向平台安全渠道和当地主管机构报告。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-03-page-12"&gt;
+  &lt;span class="slide-index"&gt;第 12 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;为什么界面可能没报警&lt;/h3&gt;&lt;p&gt;界面通常只能验证自己掌握的信息。收款方是否是用户原本想联系的人，要从可信来源验证。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-03-page-13"&gt;
+  &lt;span class="slide-index"&gt;第 13 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;更好的确认页怎么设计&lt;/h3&gt;&lt;p&gt;展示完整地址并让收款网络醒目。把“返回核对”设为方便操作的路径，让用户有条件重新验证。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-03-page-14"&gt;
+  &lt;span class="slide-index"&gt;第 14 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;手机端怎么检查&lt;/h3&gt;&lt;p&gt;手机空间小，钱包可能默认折叠地址。打开完整详情，并在另一可信渠道复核后再返回确认。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-03-page-15"&gt;
+  &lt;span class="slide-index"&gt;第 15 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;两种容易被忽略的提示&lt;/h3&gt;&lt;p&gt;遇到插件被禁用或软件要求修复权限时，先查官方说明再操作。修复流程同样适用来源、用途和权限三项检查。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-03-page-16"&gt;
+  &lt;span class="slide-index"&gt;第 16 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;从另一侧回顾证据&lt;/h3&gt;&lt;p&gt;安全团队要区分猜测与观察。记录首次接触时间、异常变更时点、保存下来的记录和可以复查的来源。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-03-page-17"&gt;
+  &lt;span class="slide-index"&gt;第 17 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;如何看区块浏览器的记录&lt;/h3&gt;&lt;p&gt;从钱包官方入口打开对应网络的浏览器，查询已知交易哈希。核对时间、数量、状态及收款字段，保存看到的结果。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-03-page-18"&gt;
+  &lt;span class="slide-index"&gt;第 18 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;制作课堂截图&lt;/h3&gt;&lt;p&gt;用课堂专用假信息截取步骤，删去截图中可识别的个人和账户信息。为每张图写一句检查动作，方便跟读。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-03-page-19"&gt;
+  &lt;span class="slide-index"&gt;第 19 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;把检查落实在下一笔&lt;/h3&gt;&lt;p&gt;无论上一步界面多么正常，都验证最终完整地址与网络。遇到不符便暂停，保留记录并求助。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/details&gt;
+&lt;details class="resource" id="deck-04" data-record&gt;
+  &lt;summary&gt;代码结构专题 · 审查思路&lt;span class="summary-lead"&gt;10 页 · 从合法组件和越权行为的对照，学习检查软件职责、权限以及用户授权。&lt;/span&gt;&lt;/summary&gt;
+  &lt;div class="reader"&gt;&lt;p class="deck-meta"&gt;10 页 · 网页课件防护改编&lt;/p&gt;&lt;div class="deck-slides"&gt;&lt;article class="slide" id="deck-04-page-1"&gt;
+  &lt;span class="slide-index"&gt;第 1 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;先辨认软件是否守住了授权&lt;/h3&gt;&lt;p&gt;组件能运行是技术判断。它处理的数据、触发行为的条件和实际写出的结果，才是安全审查的重点。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-04-page-2"&gt;
+  &lt;span class="slide-index"&gt;第 2 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;按职责画出组件图&lt;/h3&gt;&lt;p&gt;画出宿主、插件、权限、输入、用户界面和输出。记录每条边上的身份、访问范围和授权依据。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-04-page-3"&gt;
+  &lt;span class="slide-index"&gt;第 3 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;基础功能在哪些软件里会出现&lt;/h3&gt;&lt;p&gt;合法工具也可能存取用户提供的数据，或在后台执行经过授权的工作。把这些共同能力与未经允许的数据改变分开审查。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-04-page-4"&gt;
+  &lt;span class="slide-index"&gt;第 4 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;为什么字符串特征值得核对&lt;/h3&gt;&lt;p&gt;长字符串常出现在收款、票据和系统记录中。检查组件是否有权处理该类数据，以及是否保留了用户预期的原值。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-04-page-5"&gt;
+  &lt;span class="slide-index"&gt;第 5 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;把教学面板放在观察端&lt;/h3&gt;&lt;p&gt;演示面板显示两段固定文本和核对结果，方便对照和讨论。此类教学可以直接在浏览器完成。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-04-page-6"&gt;
+  &lt;span class="slide-index"&gt;第 6 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;观察最终输出&lt;/h3&gt;&lt;p&gt;付款确认页实际显示的地址应对得上可信来源。若对不上，任何了解组件内部细节的工作都可以等暂停付款后再做。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-04-page-7"&gt;
+  &lt;span class="slide-index"&gt;第 7 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;用授权判断行为性质&lt;/h3&gt;&lt;p&gt;记录用户做了什么、软件获准做什么、最终结果是什么。三个记录相互不符时，交由项目维护或安全团队审查。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-04-page-8"&gt;
+  &lt;span class="slide-index"&gt;第 8 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;代码行数不是审查的尺度&lt;/h3&gt;&lt;p&gt;少量变更也可能改变结论。优先关注敏感数据的来源、授权检查是否完整，以及结果写向何处。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-04-page-9"&gt;
+  &lt;span class="slide-index"&gt;第 9 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;接手陌生 DLL 的四项核对&lt;/h3&gt;&lt;p&gt;先记录来源和文件信息，再核对签名和发布渠道，然后核对业务需求和已有日志，最后交由获授权的团队定性。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-04-page-10"&gt;
+  &lt;span class="slide-index"&gt;第 10 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;从结论回到证据&lt;/h3&gt;&lt;p&gt;一份可复查的报告应说明观察方式、关联记录、受影响范围和置信程度，留下可供下一位分析者验证的证据。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/details&gt;
+&lt;details class="resource" id="deck-05" data-record&gt;
+  &lt;summary&gt;安全研讨 · 检测与事件分诊&lt;span class="summary-lead"&gt;25 页 · 从受控分析和证据记录出发，学习判断线索、选择遥测及处置异常。&lt;/span&gt;&lt;/summary&gt;
+  &lt;div class="reader"&gt;&lt;p class="deck-meta"&gt;25 页 · 网页课件防护改编&lt;/p&gt;&lt;div class="deck-slides"&gt;&lt;article class="slide" id="deck-05-page-1"&gt;
+  &lt;span class="slide-index"&gt;第 1 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;剪贴板劫持的防守研讨&lt;/h3&gt;&lt;p&gt;从一个用户报告出发，依次看来源、授权、行为和交易记录，练习形成可复查的判断。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-05-page-2"&gt;
+  &lt;span class="slide-index"&gt;第 2 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;研讨范围&lt;/h3&gt;&lt;p&gt;研讨围绕风险识别、证据口径和处置联络。情景均采用虚构标识和预先整理的记录，避免接触真实业务终端。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-05-page-3"&gt;
+  &lt;span class="slide-index"&gt;第 3 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;交易软件生态的风险表面&lt;/h3&gt;&lt;p&gt;第三方插件让交易软件易于扩展，也把来源核验变成必要环节。机构应记录批准的供应商、版本和授权范围。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-05-page-4"&gt;
+  &lt;span class="slide-index"&gt;第 4 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;如何使用威胁情报&lt;/h3&gt;&lt;p&gt;把来自供应商或公共安全机构的报告作为背景。保存出处、发布日期及与本次线索直接相关的事实。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-05-page-5"&gt;
+  &lt;span class="slide-index"&gt;第 5 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;给行为做分类&lt;/h3&gt;&lt;p&gt;剪贴板相关线索可能与数据访问和数据篡改同时有关。分类帮助团队统一术语，事件结论仍需观察到的证据。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-05-page-6"&gt;
+  &lt;span class="slide-index"&gt;第 6 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;用五个阶段组织调查&lt;/h3&gt;&lt;p&gt;依次梳理接触来源、是否授权、宿主是否出现异常、转账数据是否有差异，以及后续事件。对信息不完整的阶段做单独标记。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-05-page-7"&gt;
+  &lt;span class="slide-index"&gt;第 7 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;怎样划分证据层&lt;/h3&gt;&lt;p&gt;把软件来源、宿主记录、终端日志、用户截图和交易记录放在不同层。对照相同时间戳，并标明每层证据能证明什么。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-05-page-8"&gt;
+  &lt;span class="slide-index"&gt;第 8 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;宿主加载记录是一个入口&lt;/h3&gt;&lt;p&gt;有条件时，可以把模块加载记录和可信软件清单对应。未经批准的来源或发布者是进一步调查的信号。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-05-page-9"&gt;
+  &lt;span class="slide-index"&gt;第 9 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;后台活动怎样纳入判断&lt;/h3&gt;&lt;p&gt;统一管理的终端可能提供不同粒度的遥测。首先确认采集范围，再结合用户行为、应用标识和时间戳分析。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-05-page-10"&gt;
+  &lt;span class="slide-index"&gt;第 10 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;如何记录粘贴变更&lt;/h3&gt;&lt;p&gt;保留可信来源和最终确认页的差异，对照相关终端事件。证据中使用最少必要字段，并遮蔽可能关联个人的信息。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-05-page-11"&gt;
+  &lt;span class="slide-index"&gt;第 11 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;环境差异应如何处理&lt;/h3&gt;&lt;p&gt;不同设备、软件版本和监控设置会影响可见性。记录对照实验的范围，避免把没有日志直接解释为没有异常。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-05-page-12"&gt;
+  &lt;span class="slide-index"&gt;第 12 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;观察输出与用户授权&lt;/h3&gt;&lt;p&gt;对照用户发起的操作和最终确认信息。结果与预期不符时，优先阻止提交，再继续收集辅助证据。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-05-page-13"&gt;
+  &lt;span class="slide-index"&gt;第 13 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;相似地址的判读&lt;/h3&gt;&lt;p&gt;地址只要有一个字符不同，收款信息就可能不同。对照两个预制样例，确认首尾一致时仍需核对中间段。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-05-page-14"&gt;
+  &lt;span class="slide-index"&gt;第 14 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;静态特征只是线索&lt;/h3&gt;&lt;p&gt;地址样式、日志字段或文件属性可以帮助把样本归类。合法工具也可能出现相同特征，因此应要求独立的行为佐证。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-05-page-15"&gt;
+  &lt;span class="slide-index"&gt;第 15 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;静态分析的报告顺序&lt;/h3&gt;&lt;p&gt;在安全团队的授权流程中，先登记样本来源和指纹，再核对版本、签名与已知供应商信息。用证据说明查询范围和不确定性。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-05-page-16"&gt;
+  &lt;span class="slide-index"&gt;第 16 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;能力识别工具怎样读结论&lt;/h3&gt;&lt;p&gt;自动工具可以提供“可能具有某类能力”的线索。分析人员需要追问是否与本次事件相关，避免将识别结果直接当作行为事实。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-05-page-17"&gt;
+  &lt;span class="slide-index"&gt;第 17 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;如何使用已记录的动态证据&lt;/h3&gt;&lt;p&gt;从经过授权的安全分析报告获取观察结果，重点看时间、应用身份和事件之间的关系。日常工作终端用于正常业务和事件报告。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-05-page-18"&gt;
+  &lt;span class="slide-index"&gt;第 18 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;十分钟分诊卡&lt;/h3&gt;&lt;p&gt;先确认有没有正在进行的付款，再做临时保护措施。登记发现人、设备、软件、时间和异常描述，按团队流程分派。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-05-page-19"&gt;
+  &lt;span class="slide-index"&gt;第 19 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;遥测有覆盖范围&lt;/h3&gt;&lt;p&gt;可能可见的是进程、模块、文件来源和变更线索。某条记录无法直接说明收款方身份，也无法覆盖设备上所有活动。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-05-page-20"&gt;
+  &lt;span class="slide-index"&gt;第 20 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;面向 Sigma 的检测思路&lt;/h3&gt;&lt;p&gt;用组织实际拥有的加载日志标出不符合批准清单的场景，并由维护者核对签名、发布者和路径。给合法业务组件保留复核渠道。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-05-page-21"&gt;
+  &lt;span class="slide-index"&gt;第 21 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;面向 YARA 的分诊思路&lt;/h3&gt;&lt;p&gt;样本规则适合辅助归类。对每条规则保留来源、已知误报和验证范围，判断时加入其他证据。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-05-page-22"&gt;
+  &lt;span class="slide-index"&gt;第 22 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;狩猎从已知终端开始&lt;/h3&gt;&lt;p&gt;以明确的时间范围和已登记的异常设备为起点，用可信清单筛查其他终端，再由安全团队核对结果。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-05-page-23"&gt;
+  &lt;span class="slide-index"&gt;第 23 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;为什么监控存在盲区&lt;/h3&gt;&lt;p&gt;配置、版本和业务环境会影响记录，正常业务也可能触发相邻信号。用独立复核、端点防护和流程控制弥补单一视角。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-05-page-24"&gt;
+  &lt;span class="slide-index"&gt;第 24 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;课堂演练和业务处置&lt;/h3&gt;&lt;p&gt;课堂仅使用假记录。业务中出现异常时，由有授权的人员按内控流程保护终端、收集证据并联系平台。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-05-page-25"&gt;
+  &lt;span class="slide-index"&gt;第 25 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;用多层措施降低风险&lt;/h3&gt;&lt;p&gt;安全团队可以从供应链控制、授权审查、终端检测和人工复核各设一道措施。给每道措施安排责任人和改进方式。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/details&gt;
+&lt;details class="resource" id="deck-06" data-record&gt;
+  &lt;summary&gt;课堂版 · 讲义与练习&lt;span class="summary-lead"&gt;22 页 · 面向讲师和学员的课堂流程，提供可直接使用的提问、核验练习及讨论提示。&lt;/span&gt;&lt;/summary&gt;
+  &lt;div class="reader"&gt;&lt;p class="deck-meta"&gt;22 页 · 网页课件防护改编&lt;/p&gt;&lt;div class="deck-slides"&gt;&lt;article class="slide" id="deck-06-page-1"&gt;
+  &lt;span class="slide-index"&gt;第 1 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;剪贴板地址替换课堂&lt;/h3&gt;&lt;p&gt;讲师用安全的网页示例介绍风险，学员用固定字符串、场景卡和假记录演练，在付款前完成独立核验。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-06-page-2"&gt;
+  &lt;span class="slide-index"&gt;第 2 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;本课要做到三件事&lt;/h3&gt;&lt;p&gt;说明风险来自哪里，能在确认页逐段检查地址和网络，并能在发现不符时暂停、记录和报告。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-06-page-3"&gt;
+  &lt;span class="slide-index"&gt;第 3 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;开场的三个问题&lt;/h3&gt;&lt;p&gt;什么来源的地址可以信任？首尾相同意味着什么？确认后才发现异常，要记录哪些信息？&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-06-page-4"&gt;
+  &lt;span class="slide-index"&gt;第 4 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;一次事件的五个阶段&lt;/h3&gt;&lt;p&gt;按获取软件、权限确认、日常运行、付款数据核对和事后响应整理情景。每一阶段至少写出一个可采取的防护动作。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-06-page-5"&gt;
+  &lt;span class="slide-index"&gt;第 5 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;用分层框架写课堂板书&lt;/h3&gt;&lt;p&gt;将来源、宿主权限、数据读写边界、收款信息确认和应急记录放入板书。让每个小组认领一项检查并说明做法。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-06-page-6"&gt;
+  &lt;span class="slide-index"&gt;第 6 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;宿主层的重点&lt;/h3&gt;&lt;p&gt;插件借助宿主提供功能。哪种来源的插件可用、由谁批准和如何移除，都需要提前安排。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-06-page-7"&gt;
+  &lt;span class="slide-index"&gt;第 7 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;窗口与后台活动&lt;/h3&gt;&lt;p&gt;用户可见内容和设备上的全部活动可能不同。使用假日志比较时间先后，并判断哪些证据仍缺失。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-06-page-8"&gt;
+  &lt;span class="slide-index"&gt;第 8 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;核对数据的两份副本&lt;/h3&gt;&lt;p&gt;讲师用网页同时展示预先写好的可信来源和确认信息。学员把各段逐一标出来，并回答网络是否匹配。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-06-page-9"&gt;
+  &lt;span class="slide-index"&gt;第 9 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;如何读懂简写的确认页&lt;/h3&gt;&lt;p&gt;如果看到收款地址中间是省略号，先寻找展开入口。完整收款信息未得到核实前，保持操作在可返回状态。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-06-page-10"&gt;
+  &lt;span class="slide-index"&gt;第 10 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;从用户授权审查变化&lt;/h3&gt;&lt;p&gt;写下用户选择、软件权限和最后结果。讨论其中一项变化时，需要什么证据才能解释原因。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-06-page-11"&gt;
+  &lt;span class="slide-index"&gt;第 11 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;头尾相同的对照练习&lt;/h3&gt;&lt;p&gt;先快速看一眼两段演示文字，再分段朗读并标记差异。两次判断结果可以帮助发现快速浏览的弱点。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-06-page-12"&gt;
+  &lt;span class="slide-index"&gt;第 12 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;课堂观察三秒后的判断&lt;/h3&gt;&lt;p&gt;讲师给学员短暂观察两个静态示例，记录他们的初判。随后提供完整信息，比较初判和逐段核验的结果。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-06-page-13"&gt;
+  &lt;span class="slide-index"&gt;第 13 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;怎样理解相似造成的误认&lt;/h3&gt;&lt;p&gt;不同地址可能碰巧看起来相似，界面也可能隐藏重要差异。让学员给出一个不受视觉相似度影响的核对流程。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-06-page-14"&gt;
+  &lt;span class="slide-index"&gt;第 14 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;校验和与身份是两件事&lt;/h3&gt;&lt;p&gt;校验和可参与检查格式或发现录入错误。课堂问答要求学员明确指出哪个独立来源能证明收款方身份。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-06-page-15"&gt;
+  &lt;span class="slide-index"&gt;第 15 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;防守方能看见什么&lt;/h3&gt;&lt;p&gt;终端日志和平台记录各记录不同视角。学员需要说出自己看到的事实、可能的解释和下一条要查的证据。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-06-page-16"&gt;
+  &lt;span class="slide-index"&gt;第 16 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;识别 Sysmon 剪贴板变更记录&lt;/h3&gt;&lt;p&gt;在启用了相应采集的 Windows 环境中，Sysmon 事件 24 表示剪贴板内容发生变化。使用虚构事件练习时间相关性，避免用单条记录下结论。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-06-page-17"&gt;
+  &lt;span class="slide-index"&gt;第 17 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;用两张组件卡讨论信任&lt;/h3&gt;&lt;p&gt;比较两张虚构的组件卡，对照来源、签名、业务用途和用户授权。讲师问哪一项仍需要验证，让学生说明下一步。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-06-page-18"&gt;
+  &lt;span class="slide-index"&gt;第 18 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;课堂三项练习&lt;/h3&gt;&lt;p&gt;完成完整地址的逐段核对，判断一则授权请求是否应暂停，再为一条假交易记录填写事件工单。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-06-page-19"&gt;
+  &lt;span class="slide-index"&gt;第 19 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;转账前的三个动作&lt;/h3&gt;&lt;p&gt;从可信渠道取得收款信息，展开并核对完整地址和网络，最后复核金额及付款方式。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-06-page-20"&gt;
+  &lt;span class="slide-index"&gt;第 20 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;三十秒自查&lt;/h3&gt;&lt;p&gt;用固定课堂文字做对照，粘贴后和可见原文比较。发现差异时暂停敏感操作，按组织流程请求检查。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-06-page-21"&gt;
+  &lt;span class="slide-index"&gt;第 21 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;延伸阅读从防护入手&lt;/h3&gt;&lt;p&gt;查阅软件供应商的签名、更新与权限文档，以及组织的事件报告流程。交作业时标明依据，区分观察与猜测。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;
+&lt;article class="slide" id="deck-06-page-22"&gt;
+  &lt;span class="slide-index"&gt;第 22 页&lt;/span&gt;
+  &lt;div&gt;&lt;h3&gt;结束前口头复述&lt;/h3&gt;&lt;p&gt;请每位学员用自己的话写出最实用的一道检查，并说明遇到不一致时如何阻止继续付款。&lt;/p&gt;&lt;/div&gt;
+&lt;/article&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/details&gt;
+&lt;/section&gt;&lt;section class="group" id="gallery" data-group&gt;
+&lt;div class="group-head"&gt;&lt;h2&gt;图解&lt;/h2&gt;&lt;p&gt;从可信来源、权限核实到交易凭证，按场景查看对应的防护动作。&lt;/p&gt;&lt;/div&gt;
+&lt;div class="figures"&gt;
+&lt;figure class="figure" id="diagram-scene-01-chat" data-record&gt;
+  &lt;figcaption&gt;&lt;h3&gt;聊天推荐里的信号&lt;/h3&gt;&lt;p&gt;看见群里推荐的新工具时，先把社交背书和软件来源分开核验。&lt;/p&gt;
+  &lt;ul class="diagram"&gt;&lt;li&gt;&lt;strong&gt;看消息&lt;/strong&gt;&lt;span&gt;截图、好评和熟悉的头像只能说明你看到了这条消息。&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;另找入口&lt;/strong&gt;&lt;span&gt;离开转发链接，独立查找发布者的官方渠道。&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;核实发布者&lt;/strong&gt;&lt;span&gt;对方催你立即安装或要求开启额外权限时，先暂停。&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;figure class="figure" id="diagram-scene-02-landing" data-record&gt;
+  &lt;figcaption&gt;&lt;h3&gt;下载页面怎么核验&lt;/h3&gt;&lt;p&gt;版本号、教程和客服入口都是页面元素。确认下载渠道，需要回到已验证的来源。&lt;/p&gt;
+  &lt;ul class="diagram"&gt;&lt;li&gt;&lt;strong&gt;核对域名&lt;/strong&gt;&lt;span&gt;从已知官网或官方商店进入，查看地址栏中的完整域名。&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;核对发布者&lt;/strong&gt;&lt;span&gt;比较软件提供方与官网说明。对陌生镜像来源多做一次验证。&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;检查权限&lt;/strong&gt;&lt;span&gt;软件索取超出用途的权限时，先问清用途。&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;figure class="figure" id="diagram-scene-03-dialog" data-record&gt;
+  &lt;figcaption&gt;&lt;h3&gt;安装前的权限关口&lt;/h3&gt;&lt;p&gt;DLL 是应用可加载的程序库。导入开关影响插件能够执行什么。&lt;/p&gt;
+  &lt;ul class="diagram"&gt;&lt;li&gt;&lt;strong&gt;读提示&lt;/strong&gt;&lt;span&gt;确认开启的权限是什么、授予哪个插件。&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;确认必要性&lt;/strong&gt;&lt;span&gt;从可信渠道核实发布者，再确认这个插件是否需要该权限。&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;停止可疑安装&lt;/strong&gt;&lt;span&gt;来路存疑或解释含糊时，关闭提示并终止安装。&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;figure class="figure" id="diagram-scene-04-chart" data-record&gt;
+  &lt;figcaption&gt;&lt;h3&gt;图表正常，设备还需核验&lt;/h3&gt;&lt;p&gt;软件的可见功能和设备的整体状态是两件事。正常出图不足以验证近期安装的软件。&lt;/p&gt;
+  &lt;ul class="diagram"&gt;&lt;li&gt;&lt;strong&gt;可见功能&lt;/strong&gt;&lt;span&gt;能打开图表，说明这一功能在运行。&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;设备信号&lt;/strong&gt;&lt;span&gt;关注近期安装的软件、扩展和意外变化的权限。&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;隔离异常&lt;/strong&gt;&lt;span&gt;粘贴结果异常时暂停敏感操作，把问题交给可信技术支持排查。&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;figure class="figure" id="diagram-scene-05-wallet" data-record&gt;
+  &lt;figcaption&gt;&lt;h3&gt;收款信息从哪里来&lt;/h3&gt;&lt;p&gt;最终确认要和可信原始信息相对照。先确定来源，再核对完整内容。&lt;/p&gt;
+  &lt;ul class="diagram"&gt;&lt;li&gt;&lt;strong&gt;可信原始信息&lt;/strong&gt;&lt;span&gt;从已验证的收款页或事先确认的独立渠道拿到地址。&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;同时记录网络&lt;/strong&gt;&lt;span&gt;收款网络和必要的备注也是核验的一部分。&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;回到来源核对&lt;/strong&gt;&lt;span&gt;最终确认时回到原始信息逐段比对。&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;figure class="figure" id="diagram-scene-06-phone" data-record&gt;
+  &lt;figcaption&gt;&lt;h3&gt;手机上展开完整地址&lt;/h3&gt;&lt;p&gt;小屏幕常把长地址折叠成首尾。看到省略号时，先找到完整信息。&lt;/p&gt;
+  &lt;ul class="diagram"&gt;&lt;li&gt;&lt;strong&gt;缩略显示&lt;/strong&gt;&lt;span&gt;示意地址显示成 DEMO…3E6B，只能看见边缘字符。&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;展开确认&lt;/strong&gt;&lt;span&gt;打开详细信息，检查完整地址、网络和金额。&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;停止异常&lt;/strong&gt;&lt;span&gt;有字符不同、信息缺失或始终无法展开时，暂停确认。&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;figure class="figure" id="diagram-scene-07-explorer" data-record&gt;
+  &lt;figcaption&gt;&lt;h3&gt;交易已经提交时怎么记录&lt;/h3&gt;&lt;p&gt;事后排查需要可复核的交易信息。通过可信设备从官方渠道联系平台。&lt;/p&gt;
+  &lt;ul class="diagram"&gt;&lt;li&gt;&lt;strong&gt;记录凭证&lt;/strong&gt;&lt;span&gt;记录交易哈希或编号、时间、网络、金额和收款地址。&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;通知平台&lt;/strong&gt;&lt;span&gt;从已验证的官方入口提交异常报告，并按当地渠道报案。&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;避开二次诈骗&lt;/strong&gt;&lt;span&gt;对主动联系并要求先付费的所谓追回服务保持警惕。&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;figure class="figure" id="diagram-lookalike" data-record&gt;
+  &lt;figcaption&gt;&lt;h3&gt;首尾相同的两条示意地址&lt;/h3&gt;&lt;p&gt;两行是课堂示例。相同的首尾不能证明其中字符逐段一致。&lt;/p&gt;
+  &lt;ul class="diagram"&gt;&lt;li&gt;&lt;strong&gt;可信来源&lt;/strong&gt;&lt;span&gt;DEMO-7A9F-261C-73B0-3E6B&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;确认页显示&lt;/strong&gt;&lt;span&gt;DEMO-7A9F-261C-E5D8-3E6B&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;核验结果&lt;/strong&gt;&lt;span&gt;第四段分别为 73B0 和 E5D8。发现差异就停止提交。&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;figure class="figure" id="diagram-write-6-steps" data-record&gt;
+  &lt;figcaption&gt;&lt;h3&gt;剪贴板异常时的自查&lt;/h3&gt;&lt;p&gt;将系统内部实现图改为用户可执行的核验过程。示例只用无敏感内容的课堂文字。&lt;/p&gt;
+  &lt;ul class="diagram"&gt;&lt;li&gt;&lt;strong&gt;建立参照&lt;/strong&gt;&lt;span&gt;记下预期显示的无敏感示例文字。&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;对照结果&lt;/strong&gt;&lt;span&gt;在可信场景核对预期内容和实际结果，避免用真实收款信息做测试。&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;发现不一致&lt;/strong&gt;&lt;span&gt;停止在该设备操作账户，安全记录时间和现象。&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;升级处理&lt;/strong&gt;&lt;span&gt;用可信设备联系技术支持。怀疑感染时按处置指引隔离。&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;figure class="figure" id="diagram-attack-chain" data-record&gt;
+  &lt;figcaption&gt;&lt;h3&gt;从入口到确认的防护关口&lt;/h3&gt;&lt;p&gt;把事件按使用者能够做出判断的四个时点展开。&lt;/p&gt;
+  &lt;ul class="diagram"&gt;&lt;li&gt;&lt;strong&gt;接触工具&lt;/strong&gt;&lt;span&gt;核实软件来源，不依赖群推荐和转发链接。&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;权限申请&lt;/strong&gt;&lt;span&gt;确认权限和预期用途，拒绝解释不明的授权。&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;转账核验&lt;/strong&gt;&lt;span&gt;从可信来源取得收款信息并比对完整确认页。&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;异常处置&lt;/strong&gt;&lt;span&gt;区分尚未提交与已经提交，及时记录和报告。&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;figure class="figure" id="diagram-framework-map" data-record&gt;
+  &lt;figcaption&gt;&lt;h3&gt;来源、设备与交易的检查图&lt;/h3&gt;&lt;p&gt;把多层技术框架映射到课堂可以重复使用的三个检查面。&lt;/p&gt;
+  &lt;ul class="diagram"&gt;&lt;li&gt;&lt;strong&gt;信息来源&lt;/strong&gt;&lt;span&gt;记录文件的发布渠道及收款信息的原始出处。&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;设备状态&lt;/strong&gt;&lt;span&gt;检查安装变更和多余权限，调查异常设备。&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;最终确认&lt;/strong&gt;&lt;span&gt;直接比对应用即将使用的地址、网络、金额和备注。&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;figure class="figure" id="diagram-code-diff" data-record&gt;
+  &lt;figcaption&gt;&lt;h3&gt;代码审阅时看什么&lt;/h3&gt;&lt;p&gt;公开课用审阅问题区分合理软件功能与值得调查的异常行为。&lt;/p&gt;
+  &lt;ul class="diagram"&gt;&lt;li&gt;&lt;strong&gt;声明用途&lt;/strong&gt;&lt;span&gt;核对文档中说明的功能和实际请求的权限。&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;用户知情&lt;/strong&gt;&lt;span&gt;检查敏感操作是否有明确界面和清楚的触发条件。&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;处置证据&lt;/strong&gt;&lt;span&gt;记录可观察现象与来源，将具体样本交给有授权的分析人员。&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;figure class="figure" id="diagram-panel-preview" data-record&gt;
+  &lt;figcaption&gt;&lt;h3&gt;课堂里的比对面板&lt;/h3&gt;&lt;p&gt;可在网站首页练习识别差异。练习材料为两串固定的虚构示例。&lt;/p&gt;
+  &lt;ul class="diagram"&gt;&lt;li&gt;&lt;strong&gt;观察两行&lt;/strong&gt;&lt;span&gt;读完可信来源和确认页两串示例。&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;显示差异&lt;/strong&gt;&lt;span&gt;标出不同字符，确认中间哪一段发生变化。&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;复述动作&lt;/strong&gt;&lt;span&gt;先核对来源，再检查完整地址和网络，有异常就停。&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/div&gt;&lt;/section&gt;&lt;section class="group" id="web-source" data-group&gt;
+&lt;div class="group-head"&gt;&lt;h2&gt;网页源码&lt;/h2&gt;&lt;p&gt;直接查看本站使用的 HTML、CSS 和 JavaScript，涵盖地址比对练习、课件布局、搜索与主题。&lt;/p&gt;&lt;/div&gt;
+&lt;div data-record&gt;&lt;a class="button-link" href="source.html"&gt;阅读网页源码&lt;/a&gt;&lt;span hidden&gt;HTML CSS JavaScript 代码 搜索 主题 前端&lt;/span&gt;&lt;/div&gt;
+&lt;/section&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/main&gt;
+&lt;footer class="shell footer"&gt;
+  &lt;a href="index.html"&gt;快速入门&lt;/a&gt;
+  &lt;a href="library.html"&gt;课程资料库&lt;/a&gt;
+  &lt;a href="source.html"&gt;网页源码&lt;/a&gt;
+&lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre></div>
+</details>
+<details class="resource" id="source-library-css">
+  <summary>library.css<span class="summary-lead">资料库与源码页的布局和主题</span></summary>
+  <div class="reader"><pre class="source-code" tabindex="0" aria-label="library.css"><code>:root {
+  color-scheme: dark;
+  --page: #111511;
+  --panel: #191f18;
+  --inset: #131813;
+  --line: #343d30;
+  --text: #f0f2e8;
+  --muted: #b1bdab;
+  --accent: #d4f581;
+  --accent-text: #172006;
+  --accent-wash: #24321a;
+  --sans: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", system-ui, sans-serif;
+  --mono: ui-monospace, "SFMono-Regular", Consolas, monospace;
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+  --page: #f3f3e9;
+  --panel: #fcfcf3;
+  --inset: #eef0e4;
+  --line: #c8d0bc;
+  --text: #1b2618;
+  --muted: #465442;
+  --accent: #436314;
+  --accent-text: #fff;
+  --accent-wash: #e1edcb;
+}
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+[id] { scroll-margin-top: 20px; }
+body { margin: 0; background: var(--page); color: var(--text); font: 16px/1.65 var(--sans); }
+h1, h2, h3, h4, p { margin: 0 0 .55em; }
+h1, h2, h3, h4 { line-height: 1.3; }
+a { color: var(--accent); text-underline-offset: 4px; }
+a:hover { text-decoration-thickness: 2px; }
+button, input { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.shell { max-width: 1160px; margin-inline: auto; width: calc(100% - 60px); }
+.skip { position: fixed; z-index: 3; left: 12px; top: 8px; transform: translateY(-200%); padding: 6px 12px; background: var(--accent); color: var(--accent-text); }
+.skip:focus { transform: translateY(0); }
+.top { border-bottom: 1px solid var(--line); }
+.header { display: flex; justify-content: space-between; min-height: 70px; align-items: center; gap: 18px; }
+.brand { display: inline-flex; gap: 10px; align-items: center; text-decoration: none; color: var(--text); font-weight: 780; white-space: nowrap; }
+.brand-mark { display: grid; place-items: center; width: 31px; height: 31px; border-radius: 8px; color: var(--accent-text); background: var(--accent); font: 700 19px var(--mono); }
+.header nav { display: flex; align-items: center; gap: 18px; }
+.header nav a { color: var(--muted); font-size: .88rem; text-decoration: none; white-space: nowrap; }
+.header nav a:hover, .header nav a[aria-current="page"] { color: var(--accent); }
+.theme { cursor: pointer; background: transparent; border: 1px solid var(--line); border-radius: 8px; padding: 5px 10px; color: var(--muted); font-size: .82rem; min-height: 37px; white-space: nowrap; }
+.theme:hover { border-color: var(--accent); color: var(--accent); }
+.intro { padding-block: clamp(38px, 6.75vw, 87px) 29px; display: grid; grid-template-columns: 1.12fr .88fr; align-items: end; gap: 26px 65px; border-bottom: 1px solid var(--line); }
+.intro h1 { letter-spacing: -.05em; font-size: clamp(2.35rem, 5.5vw, 4.9rem); margin-bottom: 12px; }
+.kicker { color: var(--accent); font-size: .78rem; font-weight: 700; letter-spacing: .13em; }
+.intro p:last-child { color: var(--muted); font-size: .94rem; max-width: 49ch; margin-bottom: 0; }
+.search { display: grid; gap: 5px; align-self: end; }
+.search label { font-size: .82rem; font-weight: 720; }
+.search input { width: 100%; min-height: 44px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); }
+.search input::placeholder { color: var(--muted); opacity: .9; }
+.search p { margin: 0; color: var(--muted); font-size: .81rem; min-height: 1.65em; }
+.layout { display: grid; grid-template-columns: 180px minmax(0, 1fr); align-items: start; gap: clamp(22px, 4vw, 45px); }
+.side { position: sticky; top: 20px; padding-top: 30px; display: grid; gap: 5px; }
+.side a { padding: 8px 10px; border-radius: 7px; border: 1px solid transparent; text-decoration: none; color: var(--muted); font-size: .87rem; }
+.side a:hover { color: var(--accent); background: var(--accent-wash); border-color: var(--line); }
+.side a strong { color: var(--text); }
+.side a small { color: var(--muted); margin-left: 6px; }
+.directory { min-width: 0; }
+.group { padding-block: 29px 36px; border-bottom: 1px solid var(--line); }
+.group-head { margin-bottom: 21px; }
+.group-head h2 { font-size: clamp(1.5rem, 3vw, 2.18rem); letter-spacing: -.035em; margin-bottom: 7px; }
+.group-head p { color: var(--muted); margin: 0; font-size: .91rem; max-width: 60ch; }
+.collection + .collection { margin-top: 24px; }
+.collection-heading { font-size: .92rem; color: var(--accent); margin-bottom: 9px; }
+.resource { border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
+.resource + .resource { margin-top: 7px; }
+.resource &gt; summary { display: grid; grid-template-columns: minmax(0, 1fr) 23px; align-items: center; gap: 3px 10px; cursor: pointer; padding: 11px 15px; list-style: none; font-weight: 740; }
+.resource &gt; summary::-webkit-details-marker { display: none; }
+.resource &gt; summary::after { content: "+"; grid-row: 1 / span 2; grid-column: 2; place-self: center end; color: var(--accent); font: 1.25rem var(--mono); }
+.resource[open] &gt; summary::after { content: "−"; }
+.resource &gt; summary:hover { color: var(--accent); }
+.summary-lead { grid-column: 1; display: block; color: var(--muted); font-size: .84rem; font-weight: 400; overflow-wrap: anywhere; }
+.reader { border-top: 1px solid var(--line); padding: clamp(16px, 2.8vw, 28px); overflow-wrap: anywhere; }
+.reader p, .reader li { color: var(--muted); max-width: 68ch; }
+.reader section + section { margin-top: 16px; }
+.reader h3 { font-size: 1.05rem; }
+.reader ul { padding-left: 1.25em; margin-block: 6px 0; }
+.reader li + li { margin-top: 4px; }
+.lesson-links { margin-top: 17px; }
+.deck-meta { color: var(--muted); font-size: .83rem; margin: 0 0 12px; }
+.deck-slides { display: grid; gap: 11px; }
+.slide { display: grid; grid-template-columns: 62px minmax(0, 1fr); gap: 4px 15px; padding: 17px 18px; background: var(--inset); border: 1px solid var(--line); border-radius: 8px; }
+.slide h3 { margin: 0 0 4px; }
+.slide p:last-child { margin-bottom: 0; }
+.slide-index { grid-row: span 2; color: var(--accent); font: .82rem/1.6 var(--mono); white-space: nowrap; }
+.slide:target, .resource:target, .figure:target { border-color: var(--accent); }
+.figures { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.figure { margin: 0; min-width: 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--panel); }
+.figure img { display: block; height: auto; width: 100%; border-bottom: 1px solid var(--line); }
+.figure figcaption { padding: 15px; }
+.figure h3 { font-size: 1.03rem; margin: 0 0 6px; }
+.figure p { color: var(--muted); font-size: .85rem; margin-bottom: 11px; }
+.diagram { display: grid; gap: 5px; padding-left: 0; margin: 0; list-style: none; }
+.diagram li { display: grid; grid-template-columns: minmax(67px, auto) 1fr; gap: 7px; padding: 7px 9px; border-left: 2px solid var(--accent); background: var(--inset); color: var(--muted); font-size: .8rem; }
+.diagram strong { color: var(--text); align-self: start; }
+.button-link { display: inline-block; padding: 8px 13px; border-radius: 7px; color: var(--accent-text); background: var(--accent); text-decoration: none; font-weight: 760; font-size: .88rem; }
+.button-link:hover { filter: brightness(.93); }
+.no-results { margin-top: 18px; color: var(--muted); }
+.source-index { padding-block: 24px 45px; }
+.source-code { display: block; max-width: 100%; overflow: auto; max-height: 65vh; margin: 0; padding: 13px; color: var(--text); background: var(--inset); border: 1px solid var(--line); border-radius: 7px; font: .85rem/1.55 var(--mono); }
+.source-code code { font: inherit; }
+.footer { padding-block: 20px 32px; color: var(--muted); font-size: .83rem; }
+.footer a + a { margin-inline-start: 10px; }
+@media (max-width: 765px) {
+  .shell { width: calc(100% - 32px); }
+  .intro { grid-template-columns: 1fr; align-items: start; gap: 15px; }
+  .layout { grid-template-columns: 1fr; gap: 0; }
+  .side { position: static; display: flex; flex-wrap: wrap; padding-top: 13px; gap: 3px; }
+  .side a { padding: 4px 7px; }
+  .group { padding-block: 23px 28px; }
+}
+@media (max-width: 520px) {
+  .header { flex-wrap: wrap; min-height: 60px; padding-block: 9px; gap: 8px; }
+  .header nav { gap: 8px; }
+  .header nav a, .brand { font-size: .8rem; }
+  .brand-mark { width: 26px; height: 26px; }
+  .figures { grid-template-columns: 1fr; }
+  .slide { grid-template-columns: 1fr; padding: 12px; }
+  .slide-index { grid-row: auto; }
+}
+</code></pre></div>
+</details>
+<details class="resource" id="source-library-js">
+  <summary>library.js<span class="summary-lead">资料库搜索、主题切换和章节链接</span></summary>
+  <div class="reader"><pre class="source-code" tabindex="0" aria-label="library.js"><code>(() =&gt; {
+  const theme = document.getElementById("theme");
+  const storageKey = "clipper-lesson-theme";
+  function setTheme(name) {
+    document.documentElement.dataset.theme = name;
+    const next = name === "light" ? "深色" : "浅色";
+    theme.textContent = next;
+    theme.setAttribute("aria-label", "切换" + next + "主题");
+  }
+  try {
+    setTheme(localStorage.getItem(storageKey) === "light" ? "light" : "dark");
+  } catch {
+    setTheme("dark");
+  }
+  theme.hidden = false;
+  theme.addEventListener("click", () =&gt; {
+    const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+    setTheme(next);
+    try { localStorage.setItem(storageKey, next); } catch {}
+  });
+
+  function showTarget() {
+    let id;
+    try { id = decodeURIComponent(location.hash.slice(1)); } catch { return; }
+    const target = document.getElementById(id);
+    if (!target) return;
+    const parent = target.closest("details");
+    if (parent &amp;&amp; !parent.open) {
+      parent.open = true;
+      requestAnimationFrame(() =&gt; target.scrollIntoView());
+    }
+  }
+  window.addEventListener("hashchange", showTarget);
+  showTarget();
+
+  const search = document.getElementById("resource-search");
+  if (!search) return;
+
+  const form = search.form;
+  const result = document.getElementById("result-status");
+  const empty = document.getElementById("empty");
+  const records = [...document.querySelectorAll("[data-record]")].map((element) =&gt; ({
+    element,
+    text: element.textContent.normalize("NFKC").toLowerCase()
+  }));
+  const groups = [...document.querySelectorAll("[data-group]")];
+  function filter() {
+    const keywords = search.value.normalize("NFKC").toLowerCase().trim().split(/\s+/).filter(Boolean);
+    let count = 0;
+    for (const { element, text } of records) {
+      element.hidden = !keywords.every((word) =&gt; text.includes(word));
+      if (!element.hidden) count++;
+    }
+    for (const group of groups) {
+      group.hidden = !group.querySelector("[data-record]:not([hidden])");
+    }
+    for (const link of document.querySelectorAll("[data-jump]")) {
+      link.hidden = document.getElementById(link.dataset.jump).hidden;
+    }
+    result.textContent = keywords.length ? "找到 " + count + " 项资料" : "可搜索正文、课件和图解";
+    empty.hidden = count &gt; 0;
+  }
+  form.addEventListener("submit", (event) =&gt; event.preventDefault());
+  search.addEventListener("input", filter);
+  form.hidden = false;
+  filter();
+})();
+</code></pre></div>
+</details>
+</div>
+</main>
+<footer class="shell footer">
+  <a href="index.html">快速入门</a>
+  <a href="library.html">课程资料库</a>
+  <a href="source.html">网页源码</a>
+</footer>
+</body>
+</html>
